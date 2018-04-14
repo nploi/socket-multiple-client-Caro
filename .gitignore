@@ -1,0 +1,7 @@
+.idea
+/server/build
+/server/.idea
+/server/.vscode
+/client/build
+/client/.idea
+/client/.vscode
