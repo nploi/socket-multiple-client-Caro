@@ -5,3 +5,8 @@
 /client/build
 /client/.idea
 /client/.vscode
+/Debug/
+/Tic-Tac-Toe.v*
+/Server/Debug/
+/Client/Debug/
+/Tic-Tac-Toe.sdf
