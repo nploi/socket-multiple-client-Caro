@@ -1,9 +1,9 @@
 # Socket
-## Run on windows, linux
+## Run on windows
 ## C/C++
 # Use git
 ```
- # B1:
+# B1:
 git pull
 
 # B2: chon branch khac
