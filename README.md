@@ -1,6 +1,9 @@
 # Socket
 ## Run on windows
 ## C/C++
+### server - client
+![Alt text](picture\server-client.png?raw=true "Title")
+
 # Use git
 ```
 # B1:

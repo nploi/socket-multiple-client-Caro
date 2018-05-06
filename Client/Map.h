@@ -161,7 +161,6 @@ public:
 		if (countLess + countGreat >= WIN)
 			return true;
 
-
 		return false;
 	}
 
