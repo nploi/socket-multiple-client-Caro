@@ -1,8 +1,8 @@
 # Socket
 ## Run on windows
 ## C/C++
-### server - client
-![Alt text](picture\server-client.png?raw=true "Title")
+### *server - client*
+![server - client](./picture/server-client.png)
 
 # Use git
 ```
