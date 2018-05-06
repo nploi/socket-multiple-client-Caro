@@ -18,6 +18,6 @@ git checkout branch
 git add .
 git commit -m "Something"
 git pull
-git push origin
+git push origin development
 
 ```
