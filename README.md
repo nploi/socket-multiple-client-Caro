@@ -6,15 +6,13 @@
 
 # Use git
 ```
-# B1:
+# Update code
 git pull
 
-# B2: chon branch khac
-git checkout branch
+# Switch another branch
+git checkout development
 
-#vd: git checkout development
-
-# B3: commit
+# commit new code
 git add .
 git commit -m "Something"
 git pull
