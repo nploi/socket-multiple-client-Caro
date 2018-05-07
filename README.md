@@ -6,13 +6,15 @@
 
 # Use git
 ```
-# B1:
+#clone ve 
+git clone {link}
+cd Caro
+
+# cap nhat
 git pull
 
-# B2: chon branch khac
-git checkout branch
-
-#vd: git checkout development
+# chon branch khac
+git checkout development
 
 # B3: commit
 git add .
