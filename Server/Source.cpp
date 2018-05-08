@@ -10,6 +10,7 @@
 #include <WS2tcpip.h>
 #include <process.h>
 #include <queue>
+#include "Match.h"
 using namespace std;
 
 #define BUFF_SIZE 256
@@ -17,7 +18,7 @@ using namespace std;
 //Content the names of client
 map<string, bool> hash;
 
-queue<player> queuePlayers;
+queue<Player> queuePlayers;
 
 /*
 	@describe
@@ -45,16 +46,13 @@ int main() {
 		}
 	}
 
-	sockaddr_in clientAddr;
-	int clientAddrLen = sizeof(clientAddr);
-
-
 	while (true) {
 		// Init new match
-		player *playerTemp = new player;
+		Player *playerTemp = new Player;
 
 		//new connection
-		playerTemp->socket = accept(server.getListenSocket(), (sockaddr *)&clientAddr, &clientAddrLen);
+		*playerTemp = server.accepted();
+
 		cout << playerTemp->socket << " connected\n";
 		//start thread for user create an account
 
@@ -62,6 +60,14 @@ int main() {
 		pthread_create(&playerTemp->thread, NULL, registerAccount, (void*)playerTemp);
 		//registerAccount((void*)playerTemp);
 
+		if (queuePlayers.size() >= 2) {
+			Match *m = new Match;
+			m->addPlayer(queuePlayers.front());
+			queuePlayers.pop();
+			m->addPlayer(queuePlayers.front());
+			queuePlayers.pop();
+			pthread_create(&m->thread, NULL, m->startMatch, (void*)m);
+		}
 	}
 
 	return 0;
@@ -104,7 +110,7 @@ int main() {
 
 void *registerAccount(void *param) {
 	char buff[50];
-	player *client = (player*)param;
+	Player *client = (Player*)param;
 	string sucess = "0";
 	
 	while (true) {
@@ -129,6 +135,13 @@ void *registerAccount(void *param) {
 			queuePlayers.push(*client);
 			break;
 		}
+		else {
+			sucess = "0";
+			::memset(&buff, 0, sizeof(buff));//clear the buffer
+			strcpy_s(buff, sucess.c_str());
+			//if register succes, will send for client '1' and '0' is fail
+			send(client->socket, buff, strlen(buff), 0);
+		}
 	}
 	::memset(&buff, 0, sizeof(buff));//clear the buffer
 	strcpy_s(buff, sucess.c_str());
@@ -136,15 +149,6 @@ void *registerAccount(void *param) {
 	send(client->socket, buff, strlen(buff), 0);
 	::cout << "Register success !!\n";
 	
-	match *m;
-	if (queuePlayers.size() >= 2) {
-		m = new match;
-		m->addPlayer(queuePlayers.front());
-		queuePlayers.pop();
-		m->addPlayer(queuePlayers.front());
-		queuePlayers.pop();
-		pthread_create(&m->thread, NULL, m->startMatch, (void*)m);
-	}
 	pthread_cancel(client->thread);
 	return NULL;
 }
