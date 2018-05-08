@@ -1,6 +1,13 @@
+/*
+* This's socket and some structures for project
+* @author
+* - Nguyen Phuc Loi
+* - 1660321
+* @email
+* - nploi1998@gmail.com
+*/
 
 #pragma once
-
 #include <pthread.h>
 #include <iostream> 
 #include <stdio.h>
@@ -49,15 +56,17 @@ public:
 		else return false
 	*/
 	bool sendAText(string text) {
-		char *str = new char[MAX_TEXT];
-		strcat_s(str, MAX_TEXT, text.c_str());
+		char *str = new char[text.size()];
+		for (size_t i = 0; i < text.size(); i++)
+		{
+			str[i] = text[i];
+		}
 		int check = send(socket, str, MAX_TEXT, 0);
 
 		if (check != SOCKET_ERROR)
 		{
 			return 1;
 		}
-
 		return 0;
 	}
 

@@ -1,3 +1,12 @@
+/*
+* This's socket and some structures for project
+* @author
+* - Nguyen Phuc Loi
+* - 1660321
+* @email
+* - nploi1998@gmail.com
+*/
+
 #pragma once
 
 #include "Player.h"
@@ -40,36 +49,38 @@ public:
 	static void *startMatch(void *param) {
 		//TODO(FIX)
 		char buff[50];
+		string text;
 		int ret;
 		Match* newMatch = (Match*)param;
-		SOCKET target;
+		Player target;
 		int n = 0;
-		buff[0] = '1';
-		send(newMatch->players[0].socket, buff, strlen(buff), 0);
-		buff[0] = '0';
-		send(newMatch->players[1].socket, buff, strlen(buff), 0);
+		text = "0";
+		newMatch->players[0].sendAText(text);
+		text = "1";
+		newMatch->players[1].sendAText(text);
+
 		while (true) {
+			text.clear();
 			if (n % 2 == 0){
-				buff[0] = '-';
-				while (buff[0] < '0' || buff[0] > '9') {
-					ret = recv(newMatch->players[0].socket, buff, 50, 0);
+				while (text.empty()){
+					text = newMatch->players[0].receive();
 				}
-				cout << newMatch->players[0].socket << " sent " << buff << endl;
-				target = newMatch->players[1].socket;
+				cout << newMatch->players[0].name << " sent " << text << endl;
+				target = newMatch->players[1];
 			}
 			else {
-				buff[0] = '-';
-				while (buff[0] < '0' || buff[0] > '9') {
-					ret = recv(newMatch->players[1].socket, buff, 50, 0);
+				while (text.empty()){
+					text = newMatch->players[1].receive();
 				}
-				cout << newMatch->players[1].socket << " sent " << buff << endl;
-				target = newMatch->players[0].socket;
+				cout << newMatch->players[1].name << " sent " << text << endl;
+				target = newMatch->players[0];
 			}
-			if (ret == SOCKET_ERROR)
+			if (text == "stop")
 			{
 				break;
 			}
-			send(target, buff, strlen(buff), 0);
+			target.sendAText(text);
+
 			n++;
 		}
 		pthread_cancel(newMatch->thread);

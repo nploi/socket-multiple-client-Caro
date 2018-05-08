@@ -103,18 +103,15 @@ void *registerAccount(void *param) {
 	char buff[50];
 	Player *client = (Player*)param;
 	string sucess = "0";
-	
+	string userName;
 	while (true) {
-		buff[0] = NULL;
-		while (buff[0] == NULL){
-			int check = recv(client->socket, buff, sizeof(buff), 0);
-			if (check == SOCKET_ERROR) {
+		while (userName.empty()){
+			userName = client->receive();
+			if (userName.empty()) {
 				shutdown(client->socket, 2);
 				return NULL;
 			}
 		}
-
-		string userName(buff);
 
 		if ((bool)(::hash.find(userName) == ::hash.end()) == true) {
 
@@ -124,30 +121,27 @@ void *registerAccount(void *param) {
 			::hash.insert(pair<string, bool>(userName, 1));
 			client->name = userName;
 			queuePlayers.push(*client);
-
+			if (queuePlayers.size() >= 2) {
+				Match *m = new Match;
+				m->addPlayer(queuePlayers.front());
+				queuePlayers.pop();
+				m->addPlayer(queuePlayers.front());
+				queuePlayers.pop();
+				pthread_create(&m->thread, NULL, m->startMatch, (void*)m);
+			}
 			break;
 		}
 		else {
 			sucess = "0";
-			::memset(&buff, 0, sizeof(buff));//clear the buffer
-			strcpy_s(buff, sucess.c_str());
 			//if register succes, will send for client '1' and '0' is fail
-			send(client->socket, buff, strlen(buff), 0);
+			client->sendAText(sucess);
 		}
 	}
-	::memset(&buff, 0, sizeof(buff));//clear the buffer
-	strcpy_s(buff, sucess.c_str());
 	//if register succes, will send for client '1' and '0' is fail
-	send(client->socket, buff, strlen(buff), 0);
+	client->sendAText(sucess);
+
 	::cout << "Register success !!\n";
-	if (queuePlayers.size() >= 2) {
-		Match *m = new Match;
-		m->addPlayer(queuePlayers.front());
-		queuePlayers.pop();
-		m->addPlayer(queuePlayers.front());
-		queuePlayers.pop();
-		pthread_create(&m->thread, NULL, m->startMatch, (void*)m);
-	}
+	
 	pthread_cancel(client->thread);
 	return NULL;
 }
