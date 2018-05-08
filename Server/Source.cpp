@@ -59,15 +59,6 @@ int main() {
 		//_beginthreadex(0, 0, registerAccount, (void*)playerTemp, 0, 0);
 		pthread_create(&playerTemp->thread, NULL, registerAccount, (void*)playerTemp);
 		//registerAccount((void*)playerTemp);
-
-		if (queuePlayers.size() >= 2) {
-			Match *m = new Match;
-			m->addPlayer(queuePlayers.front());
-			queuePlayers.pop();
-			m->addPlayer(queuePlayers.front());
-			queuePlayers.pop();
-			pthread_create(&m->thread, NULL, m->startMatch, (void*)m);
-		}
 	}
 
 	return 0;
@@ -133,6 +124,7 @@ void *registerAccount(void *param) {
 			::hash.insert(pair<string, bool>(userName, 1));
 			client->name = userName;
 			queuePlayers.push(*client);
+
 			break;
 		}
 		else {
@@ -148,7 +140,14 @@ void *registerAccount(void *param) {
 	//if register succes, will send for client '1' and '0' is fail
 	send(client->socket, buff, strlen(buff), 0);
 	::cout << "Register success !!\n";
-	
+	if (queuePlayers.size() >= 2) {
+		Match *m = new Match;
+		m->addPlayer(queuePlayers.front());
+		queuePlayers.pop();
+		m->addPlayer(queuePlayers.front());
+		queuePlayers.pop();
+		pthread_create(&m->thread, NULL, m->startMatch, (void*)m);
+	}
 	pthread_cancel(client->thread);
 	return NULL;
 }
