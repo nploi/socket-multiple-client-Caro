@@ -1,9 +1,43 @@
-#include <iostream>
+#include "SocketClient.h"
 
-using namespace std;
+int main()
+{
+	SocketClient client;
+	char buff[BUFF_SIZE];
 
-int main() {
+	//init client
+	try
+	{
+		client.InitClient(SERVER_ADDR, PORT);
+	}
+	catch (int exception)
+	{
+		if (exception == ERROR_INIT)
+		{
+			cout << "ERROR! cannot init client" << endl;
+			return 0;
+		}
+		else
+			cout << "Connected to server" << endl;
+	}
 
-	cout << "Hello, I'm client !";
+	//gui username
+	string username;
+	do
+	{
+		cout << "Username is: ";
+		getline(cin, username);
+		//gui username cho server
+		client.registerUsername(username);
+		client.Receive(buff);			//nhan lai kq dang ki username(1: thanh cong, 0: Nhap lai)
+		if ((int)buff[0] == 1)
+		{
+			cout << "Register success !!" << endl;
+			break;
+		}
+	} while (1);
+	//danh co
+
+
 	return 0;
 }
