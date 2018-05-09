@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7B8F93EB-4DB1-433F-BDB9-87C980F8D48C}</ProjectGuid>
+    <ProjectGuid>{3FC2DFA8-631B-4CD0-8F43-B4215BA20673}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Server</RootNamespace>
   </PropertyGroup>
@@ -19,13 +19,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -41,8 +41,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>H:\HOCTAP\C++_17-18_HK2\Network\Socket\ConsoleApplication1\Pre-built.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>H:\HOCTAP\C++_17-18_HK2\Network\Socket\ConsoleApplication1\Pre-built.2\lib;H:\HOCTAP\C++_17-18_HK2\Network\Socket\ConsoleApplication1\Pre-built.2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -58,11 +56,6 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-<<<<<<< HEAD
-      <AdditionalDependencies>H:\HOCTAP\C++_17-18_HK2\Network\Socket\ConsoleApplication1\Pre-built.2\lib\x86\pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
-=======
-      <AdditionalDependencies>C:\Users\loinp\Downloads\ConsoleApplication1\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
->>>>>>> ff3847a617fa59968d86be5126f2986f2d29c846
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
