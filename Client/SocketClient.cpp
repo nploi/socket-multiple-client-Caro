@@ -1,3 +1,12 @@
+/*
+* @author
+* - Nguyen Nhut Minh
+* - 1660345
+* @email
+* - nhutminh12a21998@gmail.com
+*/
+
+
 #include "SocketClient.h"
 SocketClient::SocketClient()
 {

@@ -1,3 +1,12 @@
+/*
+* @author
+* - Nguyen Nhut Minh
+* - 1660345
+* @email
+* - nhutminh12a21998@gmail.com
+*/
+
+
 #include "SocketClient.h"
 
 int main()
@@ -30,7 +39,7 @@ int main()
 		//gui username cho server
 		client.registerUsername(username);
 		client.Receive(buff);			//nhan lai kq dang ki username(1: thanh cong, 0: Nhap lai)
-		if ((int)buff[0] == 1)
+		if ((int)buff[0] == '1')
 		{
 			cout << "Register success !!" << endl;
 			break;

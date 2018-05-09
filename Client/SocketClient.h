@@ -18,8 +18,8 @@ using namespace std;
 
 #pragma comment (lib, "Ws2_32.lib")
 
+#define PORT 5454
 #define SERVER_ADDR "127.0.0.1"
-#define PORT 5555
 #define BUFF_SIZE 2048
 #define ERROR_INIT 1001
 
