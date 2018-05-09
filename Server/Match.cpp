@@ -9,36 +9,50 @@ void *Match::startMatch(void *param) {
 	string text;
 	Match* newMatch = (Match*)param;
 	Player target;
+	Map game;
 	int n = 0;
 	text = "0";
+	newMatch->players[0].chessman = 'X';
 	newMatch->players[0].sendAText(text);
 	text = "1";
+	newMatch->players[0].chessman = 'O';
 	newMatch->players[1].sendAText(text);
 
 	while (true) {
 		text.clear();
 		if (n % 2 == 0){
-			while (text.empty()){
-				text = newMatch->players[0].receive();
-			}
-			cout << newMatch->players[0].name << " sent " << text << endl;
-			target = newMatch->players[1];
+			communication(newMatch->players[0], newMatch->players[1], game);
 		}
 		else {
-			while (text.empty()){
-				text = newMatch->players[1].receive();
-			}
-			cout << newMatch->players[1].name << " sent " << text << endl;
-			target = newMatch->players[0];
+			communication(newMatch->players[1], newMatch->players[0], game);
 		}
-		if (text == "stop")
-		{
-			break;
-		}
-		target.sendAText(text);
-
 		n++;
 	}
 	pthread_cancel(newMatch->thread);
 	return NULL;
+}
+
+int Match::communication(Player player01, Player player02, Map &game) {
+	string data;
+	int x, y, win;
+	do {
+		data = player01.receive();
+		if (data == string()) {
+			player02.sendAText("exit");
+			return 2;
+		}
+
+		istringstream in(data);
+		in >> x >> y;
+	} while (!game.isValid(x, y));
+
+	cout << player01.name << " sent " << data << endl;
+
+	game.chess(x, y, player01.chessman);
+	win = game.isWin(x, y, player01.chessman);
+	ostringstream os;
+	os << x << " " << y << " " << win;
+	player02.sendAText(os.str());
+	// not win
+	return 0;
 }

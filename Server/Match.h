@@ -11,6 +11,9 @@
 
 #include "Player.h"
 #include <vector>
+#include <sstream>
+#include "Map.h"
+
 using namespace std;
 /*
 structure of match
@@ -31,6 +34,20 @@ public:
 		NULL
 	*/
 	void addPlayer(Player player);
+
+
+	/*
+	@describe
+		communication between players
+	@param
+		player01: player
+		player02: player
+	@return
+		2: player01 is out
+		1: player01 is win
+		0: not win
+	*/
+	static int communication(Player player01, Player player02, Map &game);
 
 	~Match() {
 

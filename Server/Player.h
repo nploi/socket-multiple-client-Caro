@@ -55,4 +55,5 @@ public:
 	SOCKET socket;
 	string name;
 	pthread_t thread;
+	char chessman;
 };
