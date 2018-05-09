@@ -12,7 +12,7 @@
 int main()
 {
 	SocketClient client;
-	char buff[BUFF_SIZE];
+	string buff;
 
 	//init client
 	try
@@ -38,10 +38,11 @@ int main()
 		getline(cin, username);
 		//gui username cho server
 		client.registerUsername(username);
-		client.Receive(buff);			//nhan lai kq dang ki username(1: thanh cong, 0: Nhap lai)
+		buff = client.Receive();			//nhan lai kq dang ki username(1: thanh cong, 0: Nhap lai)
 		if ((int)buff[0] == '1')
 		{
 			cout << "Register success !!" << endl;
+			system("pause");
 			break;
 		}
 	} while (1);

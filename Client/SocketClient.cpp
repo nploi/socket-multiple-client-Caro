@@ -35,9 +35,10 @@ void SocketClient::InitClient(const char* server_addr, int port)
 
 void SocketClient::registerUsername(string username)
 {
-	char buff[BUFF_SIZE];
-	memset(&buff, 0, sizeof(buff));
-	send(this->server, buff, sizeof(buff), 0);
+	//char buff[BUFF_SIZE];
+	//memset(&buff, 0, sizeof(buff));
+	//buff = username.c_str();
+	send(this->server, username.c_str(), sizeof(username.c_str()), 0);
 }
 
 void SocketClient::Send(char buff[])
@@ -45,10 +46,12 @@ void SocketClient::Send(char buff[])
 	send(this->server, buff, sizeof(buff), 0);
 }
 
-void SocketClient::Receive(char buff[])
+string SocketClient::Receive()
 {
+	char buff[BUFF_SIZE];
 	memset(&buff, 0, sizeof(buff));
 	recv(this->server, buff, sizeof(buff), 0);
+	return string(buff);
 }
 
 SocketClient::~SocketClient()

@@ -34,7 +34,7 @@ public:
 
 	void Send(char buff[]);
 
-	void Receive(char buff[]);
+	string Receive();
 
 	~SocketClient();
 private:
