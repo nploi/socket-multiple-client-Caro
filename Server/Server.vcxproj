@@ -58,7 +58,11 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+<<<<<<< HEAD
       <AdditionalDependencies>H:\HOCTAP\C++_17-18_HK2\Network\Socket\ConsoleApplication1\Pre-built.2\lib\x86\pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+=======
+      <AdditionalDependencies>C:\Users\loinp\Downloads\ConsoleApplication1\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+>>>>>>> ff3847a617fa59968d86be5126f2986f2d29c846
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,10 +83,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Match.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="SocketServer.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Match.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="SocketServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

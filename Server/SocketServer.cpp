@@ -11,10 +11,6 @@
 SocketServer::SocketServer() {
 }
 
-SOCKET SocketServer::getListenSocket(){
-	return listenSock;
-}
-
 void SocketServer::init(int port, const char *address) {
 	WSADATA wsa;
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
@@ -43,6 +39,16 @@ void SocketServer::init(int port, const char *address) {
 		return;
 	}
 }
+
+Player SocketServer::accepted() {
+	Player result;
+	sockaddr_in clientAddr;
+	int clientAddrLen = sizeof(clientAddr);
+	result.socket = accept(this->listenSock, (sockaddr *)&clientAddr, &clientAddrLen);
+	return result;
+}
+
+
 
 /*
  Destructor
