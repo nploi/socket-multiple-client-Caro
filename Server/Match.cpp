@@ -13,18 +13,19 @@ void *Match::startMatch(void *param) {
 	int n = 0;
 	text = "0";
 	newMatch->players[0].chessman = 'X';
+
 	newMatch->players[0].sendAText(text);
 	text = "1";
-	newMatch->players[0].chessman = 'O';
+	newMatch->players[1].chessman = 'O';
 	newMatch->players[1].sendAText(text);
 
 	while (true) {
 		text.clear();
 		if (n % 2 == 0){
-			communication(newMatch->players[0], newMatch->players[1], game);
+			newMatch->communication(newMatch->players[0], newMatch->players[1], game);
 		}
 		else {
-			communication(newMatch->players[1], newMatch->players[0], game);
+			newMatch->communication(newMatch->players[1], newMatch->players[0], game);
 		}
 		n++;
 	}

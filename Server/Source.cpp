@@ -121,6 +121,8 @@ void *registerAccount(void *param) {
 			::hash.insert(pair<string, bool>(userName, 1));
 			client->name = userName;
 			queuePlayers.push(*client);
+			//if register succes, will send for client '1' and '0' is fail
+			client->sendAText(sucess);
 			if (queuePlayers.size() >= 2) {
 				Match *m = new Match;
 				m->addPlayer(queuePlayers.front());
@@ -137,8 +139,6 @@ void *registerAccount(void *param) {
 			client->sendAText(sucess);
 		}
 	}
-	//if register succes, will send for client '1' and '0' is fail
-	client->sendAText(sucess);
 
 	::cout << "Register success !!\n";
 	

@@ -15,12 +15,7 @@ string Player::receive() {
 }
 
 bool Player::sendAText(string text) {
-	char *str = new char[text.size()];
-	for (size_t i = 0; i < text.size(); i++)
-	{
-		str[i] = text[i];
-	}
-	int check = send(socket, str, MAX_TEXT, 0);
+	int check = send(socket, text.c_str(), text.size(), 0);
 
 	if (check != SOCKET_ERROR)
 	{
