@@ -105,12 +105,11 @@ void *registerAccount(void *param) {
 	string sucess = "0";
 	string userName;
 	while (true) {
-		while (userName.empty()){
-			userName = client->receive();
-			if (userName.empty()) {
-				shutdown(client->socket, 2);
-				return NULL;
-			}
+
+		userName = client->receive();
+		if (userName.empty()) {
+			shutdown(client->socket, 2);
+			return NULL;
 		}
 
 		if ((bool)(::hash.find(userName) == ::hash.end()) == true) {
@@ -141,7 +140,7 @@ void *registerAccount(void *param) {
 	}
 
 	::cout << "Register success !!\n";
-	
+
 	pthread_cancel(client->thread);
 	return NULL;
 }

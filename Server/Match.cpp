@@ -13,8 +13,8 @@ void *Match::startMatch(void *param) {
 	int n = 0;
 	text = "0";
 	newMatch->players[0].chessman = 'X';
-
 	newMatch->players[0].sendAText(text);
+	Sleep(200);
 	text = "1";
 	newMatch->players[1].chessman = 'O';
 	newMatch->players[1].sendAText(text);
@@ -22,12 +22,13 @@ void *Match::startMatch(void *param) {
 	while (true) {
 		text.clear();
 		if (n % 2 == 0){
-			newMatch->communication(newMatch->players[0], newMatch->players[1], game);
-		}
-		else {
 			newMatch->communication(newMatch->players[1], newMatch->players[0], game);
 		}
+		else {
+			newMatch->communication(newMatch->players[0], newMatch->players[1], game);
+		}
 		n++;
+		Sleep(300);
 	}
 	pthread_cancel(newMatch->thread);
 	return NULL;
