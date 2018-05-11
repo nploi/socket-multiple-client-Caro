@@ -7,11 +7,18 @@ Player::Player()
 
 string Player::receive() {
 	char *str = new char[MAX_TEXT];
+	string result;
 	int check = recv(socket, str, sizeof(str), 0);
+	int lenght = strlen(str);
+	str[lenght] = NULL;
+	for (size_t i = 0; str[i] != NULL; i++)
+	{
+		result.push_back(str[i]);
+	}
 	if (check == SOCKET_ERROR) {
 		return string();
 	}
-	return string(str);
+	return result;
 }
 
 bool Player::sendAText(string text) {

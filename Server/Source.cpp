@@ -56,48 +56,11 @@ int main() {
 		cout << playerTemp->socket << " connected\n";
 		//start thread for user create an account
 
-		//_beginthreadex(0, 0, registerAccount, (void*)playerTemp, 0, 0);
 		pthread_create(&playerTemp->thread, NULL, registerAccount, (void*)playerTemp);
-		//registerAccount((void*)playerTemp);
 	}
 
 	return 0;
 }
-
-//void registerAccount(void *param) {
-//	char buff[50];
-//	player *client = (player*)param;
-//	while (true) {
-//		int check = recv(client->socket, buff, sizeof(buff), 0);
-//		if (check == SOCKET_ERROR) {
-//			shutdown(client->socket, 2);
-//			return ;
-//		}
-//
-//		string userName(buff);
-//		string data;
-//		if ((bool)(::hash.find(userName) == ::hash.end()) == true) {
-//
-//			data = "1";
-//			memset(&buff, 0, sizeof(buff));//clear the buffer
-//			strcpy_s(buff, data.c_str());
-//			::hash.insert(pair<string, bool>(userName, 1));
-//			break;
-//		}
-//		else{
-//			data = "0";
-//		}
-//		memset(&buff, 0, sizeof(buff));//clear the buffer
-//		strcpy_s(buff, data.c_str());
-//		//if register succes, will send for client '1' and '0' is fail
-//		send(client->socket, buff, strlen(buff), 0);
-//	}
-//	client->name = buff;
-//	queuePlayers.push(*client);
-//	cout << "Register success !!\n";
-//	return ;
-//}
-
 
 void *registerAccount(void *param) {
 	char buff[50];
@@ -139,9 +102,8 @@ void *registerAccount(void *param) {
 		}
 	}
 
-	::cout << "Register success !!\n";
+	::cout << client->name <<" register success !!\n";
 
 	pthread_cancel(client->thread);
 	return NULL;
 }
-

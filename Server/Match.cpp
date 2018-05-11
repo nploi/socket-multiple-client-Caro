@@ -46,6 +46,7 @@ int Match::communication(Player player01, Player player02, Map &game) {
 
 		istringstream in(data);
 		in >> x >> y;
+
 	} while (!game.isValid(x, y));
 
 	cout << player01.name << " sent " << data << endl;
@@ -53,8 +54,24 @@ int Match::communication(Player player01, Player player02, Map &game) {
 	game.chess(x, y, player01.chessman);
 	win = game.isWin(x, y, player01.chessman);
 	ostringstream os;
-	os << x << " " << y << " " << win;
-	player02.sendAText(os.str());
+
+	//TODO(FIX)
+	if (win == true) {
+		os << x << " " << y << " " << -1 << " ";
+		player02.sendAText(os.str());
+
+		os << x << " " << y << " " << 1 << " ";
+		player01.sendAText(os.str());
+		
+	}
+	else {
+		os << x << " " << y << " " << 0 << " ";
+		player01.sendAText(os.str());
+
+		os << x << " " << y << " " << 0 << " ";
+		player02.sendAText(os.str());
+	}
+
 	// not win
 	return 0;
 }

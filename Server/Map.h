@@ -14,8 +14,8 @@
 
 using namespace std;
 
-#define WIN 3
-#define MAX_SIZE 3
+#define WIN 5
+#define MAX_SIZE 5
 
 class Map {
 public:
@@ -56,7 +56,7 @@ public:
 		}
 		for (int i = 0; i < map.size(); i++) {
 			cout << endl << i << " - |";
-			for (int j = 0; j < map[i].size(); j++){
+			for (int j = 0; j < map[i].size(); j++) {
 				cout << map[i][j] << '|';
 			}
 			cout << endl << "    ";

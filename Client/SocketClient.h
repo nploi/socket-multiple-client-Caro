@@ -27,7 +27,9 @@ class SocketClient
 {
 public:
 	SocketClient();
+
 	SOCKET getClient();
+	
 	void InitClient(const char* server_addr, const int port);
 
 	void registerUsername(string username);

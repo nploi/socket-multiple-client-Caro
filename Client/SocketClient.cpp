@@ -38,7 +38,8 @@ void SocketClient::registerUsername(string username)
 	//char buff[BUFF_SIZE];
 	//memset(&buff, 0, sizeof(buff));
 	//buff = username.c_str();
-	send(this->server, username.c_str(), sizeof(username.c_str()), 0);
+	username[username.size()] = NULL;
+	send(this->server, username.c_str(), username.size(), 0);
 }
 
 void SocketClient::Send(char buff[])
