@@ -175,7 +175,8 @@ public:
 	*   (true or false)
 	*/
 	bool isValid(int x, int y) {
-		if (x < 0 || x >= map.size() || y < 0 || y >= map.size())
+		if ((x < 0 || x >= map.size() || y < 0 || y >= map.size())
+			&& (map[x][y] == 'X' || map[x][y] == 'O'))
 			return false;
 		return true;
 	}

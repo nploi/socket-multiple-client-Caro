@@ -37,6 +37,7 @@ int main()
 		cout << "Username is: ";
 		getline(cin, username);
 		//gui username cho server
+		username[username.size()] = NULL;
 		client.registerUsername(username);
 		buff = client.Receive();			//nhan lai kq dang ki username(1: thanh cong, 0: Nhap lai)
 		if ((int)buff[0] == '1')

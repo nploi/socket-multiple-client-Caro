@@ -57,9 +57,10 @@ int Match::communication(Player player01, Player player02, Map &game) {
 
 	//TODO(FIX)
 	if (win == true) {
+		os.clear();
 		os << x << " " << y << " " << -1 << " ";
 		player02.sendAText(os.str());
-
+		os.clear();
 		os << x << " " << y << " " << 1 << " ";
 		player01.sendAText(os.str());
 		
