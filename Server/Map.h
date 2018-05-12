@@ -14,7 +14,7 @@
 
 using namespace std;
 
-#define WIN 5
+#define WIN 3
 #define MAX_SIZE 5
 
 class Map {
@@ -175,8 +175,7 @@ public:
 	*   (true or false)
 	*/
 	bool isValid(int x, int y) {
-		if ((x < 0 || x >= map.size() || y < 0 || y >= map.size())
-			&& (map[x][y] == 'X' || map[x][y] == 'O'))
+		if (x < 0 || x >= map.size() || y < 0 || y >= map.size())
 			return false;
 		return true;
 	}
