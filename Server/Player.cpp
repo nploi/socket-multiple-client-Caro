@@ -8,9 +8,7 @@ Player::Player()
 string Player::receive() {
 	char *str = new char[MAX_TEXT];
 	string result;
-	int check = recv(socket, str, sizeof(str), 0);
-	int lenght = strlen(str);
-	str[lenght] = NULL;
+	int check = recv(socket, str, sizeof(str) - 1, 0);
 	for (size_t i = 0; str[i] != NULL; i++) {
 		result.push_back(str[i]);
 	}

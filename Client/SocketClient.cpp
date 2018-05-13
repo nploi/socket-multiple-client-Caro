@@ -55,6 +55,34 @@ string SocketClient::Receive()
 	return string(buff);
 }
 
+unsigned _stdcall SocketClient::SendThread(void* param)
+{
+	Map game;
+	SocketClient client;
+	client.server = (SOCKET)param;
+	int x, y;
+	char buff[2];
+	while (1)
+	{
+		memset(&buff, 0, sizeof(buff));
+		do
+		{
+			cout << "\nSelect cell (x, y): " << endl;
+			cin >> x >> y;
+			if (!game.isValid(x, y))
+				cout << "Cell error!!!. Please select cell again." << endl;
+		} while (!game.isValid(x, y));
+		memset(&buff, 0, sizeof(buff));
+		buff[0] = (char)x;
+		buff[1] = (char)y;
+		client.Send(buff);
+	}
+	system("pause");
+	closesocket(client.server);
+	WSACleanup();
+	return 0;
+}
+
 SocketClient::~SocketClient()
 {
 	closesocket(this->server);

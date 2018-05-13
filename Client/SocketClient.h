@@ -14,6 +14,7 @@
 #include <string.h>
 #include <string>
 #include <WS2tcpip.h>
+#include "Map.h"
 using namespace std;
 
 #pragma comment (lib, "Ws2_32.lib")
@@ -38,7 +39,10 @@ public:
 
 	string Receive();
 
+	static unsigned _stdcall SendThread(void* param);
+
 	~SocketClient();
+
 private:
 	SOCKET server;
 };

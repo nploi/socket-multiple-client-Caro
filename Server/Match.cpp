@@ -61,11 +61,13 @@ int Match::communication(Player player01, Player player02, Map &game) {
 		os1.clear();
 		os1 << x << " " << y << " 1 " << endl;
 		cout << endl << "Sent to " << player02.name << " : " << os1.str() << endl;
+		Sleep(200);
 		player01.sendAText(os1.str());
 		ostringstream os;
 		os.clear();
 		os << x << " " << y << " -1 " << endl;
 		cout << endl << "Sent to " << player01.name << " : " <<  os.str() << endl;
+		Sleep(200);
 		player02.sendAText(os.str());
 		return 1;
 		
@@ -75,9 +77,11 @@ int Match::communication(Player player01, Player player02, Map &game) {
 		os.clear();
 		os << x << " " << y << " 0 " << endl;
 		cout << endl << "Sent to " << player02.name << " : " << os.str() << endl;
+		Sleep(200);
 		player01.sendAText(os.str());
 
 		cout << endl << "Sent to " << player01.name << " : " << os.str() << endl;
+		Sleep(200);
 		player02.sendAText(os.str());
 	}
 
