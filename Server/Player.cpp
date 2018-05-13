@@ -33,5 +33,4 @@ bool Player::sendAText(string text) {
 
 Player::~Player()
 {
-	closesocket(socket);
 }

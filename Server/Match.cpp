@@ -41,7 +41,6 @@ int Match::communication(Player player01, Player player02, Map &game) {
 		data = player01.receive();
 		if (data == string()) {
 			player02.sendAText("exit");
-			closesocket(player01.socket);
 			return 2;
 		}
 
