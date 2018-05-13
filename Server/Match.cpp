@@ -11,6 +11,7 @@ void *Match::startMatch(void *param) {
 	Player target;
 	Map game;
 	int n = 0;
+	int check = 0;
 	text = "0";
 	newMatch->players[0].chessman = 'X';
 	newMatch->players[0].sendAText(text);
@@ -19,13 +20,13 @@ void *Match::startMatch(void *param) {
 	newMatch->players[1].chessman = 'O';
 	newMatch->players[1].sendAText(text);
 
-	while (true) {
+	while (check == 0) {
 		text.clear();
 		if (n % 2 == 0){
-			newMatch->communication(newMatch->players[1], newMatch->players[0], game);
+			check = newMatch->communication(newMatch->players[1], newMatch->players[0], game);
 		}
 		else {
-			newMatch->communication(newMatch->players[0], newMatch->players[1], game);
+			check = newMatch->communication(newMatch->players[0], newMatch->players[1], game);
 		}
 		n++;
 	}
@@ -40,6 +41,7 @@ int Match::communication(Player player01, Player player02, Map &game) {
 		data = player01.receive();
 		if (data == string()) {
 			player02.sendAText("exit");
+			closesocket(player01.socket);
 			return 2;
 		}
 

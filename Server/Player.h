@@ -55,5 +55,6 @@ public:
 	SOCKET socket;
 	string name;
 	pthread_t thread;
+	sockaddr_in clientAddr;
 	char chessman;
 };

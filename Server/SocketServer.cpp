@@ -42,9 +42,8 @@ void SocketServer::init(int port, const char *address) {
 
 Player SocketServer::accepted() {
 	Player result;
-	sockaddr_in clientAddr;
-	int clientAddrLen = sizeof(clientAddr);
-	result.socket = accept(this->listenSock, (sockaddr *)&clientAddr, &clientAddrLen);
+	int clientAddrLen = sizeof(result.clientAddr);
+	result.socket = accept(this->listenSock, (sockaddr *)&result.clientAddr, &clientAddrLen);
 	return result;
 }
 

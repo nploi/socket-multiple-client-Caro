@@ -15,6 +15,7 @@ string Player::receive() {
 		result.push_back(str[i]);
 	}
 	if (check == SOCKET_ERROR) {
+		closesocket(socket);
 		return string();
 	}
 	return result;
@@ -26,9 +27,11 @@ bool Player::sendAText(string text) {
 	if (check != SOCKET_ERROR) {
 		return 1;
 	}
+	closesocket(socket);
 	return 0;
 }
 
 Player::~Player()
 {
+	closesocket(socket);
 }

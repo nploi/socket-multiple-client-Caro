@@ -71,7 +71,7 @@ void *registerAccount(void *param) {
 
 		userName = client->receive();
 		if (userName.empty()) {
-			shutdown(client->socket, 2);
+			closesocket(client->socket);
 			return NULL;
 		}
 
