@@ -44,8 +44,8 @@ int Match::communication(Player player01, Player player02, Map &game) {
 			return 2;
 		}
 
-		istringstream in(data);
-		in >> x >> y;
+		x = data[0];
+		y = data[1];
 
 	} while (!game.isValid(x, y));
 
@@ -59,13 +59,13 @@ int Match::communication(Player player01, Player player02, Map &game) {
 	if (win == true) {
 		ostringstream os1;
 		os1.clear();
-		os1 << x << " " << y << " 1 " << endl;
+		os1 << x << y << "1" << endl;
 		cout << endl << "Sent to " << player02.name << " : " << os1.str() << endl;
 		Sleep(200);
 		player01.sendAText(os1.str());
 		ostringstream os;
 		os.clear();
-		os << x << " " << y << " -1 " << endl;
+		os << x << y << "-1" << endl;
 		cout << endl << "Sent to " << player01.name << " : " <<  os.str() << endl;
 		Sleep(200);
 		player02.sendAText(os.str());
@@ -75,7 +75,7 @@ int Match::communication(Player player01, Player player02, Map &game) {
 	else {
 		ostringstream os;
 		os.clear();
-		os << x << " " << y << " 0 " << endl;
+		os << x << y << "0" << endl;
 		cout << endl << "Sent to " << player02.name << " : " << os.str() << endl;
 		Sleep(200);
 		player01.sendAText(os.str());

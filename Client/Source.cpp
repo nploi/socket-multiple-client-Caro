@@ -72,8 +72,8 @@ int main()
 			break;
 		}
 		x = (int)buff[0]-48;//buff[1]=' '
-		y = (int)buff[2]-48;
-		win = (int)buff[3]-48;
+		y = (int)buff[1]-48;
+		win = (int)buff[2]-48;
 		game.chess(x, y, ((n % 2 == 0) ? 'X' : 'O'));
 		game.display();
 		if (win != 0)
