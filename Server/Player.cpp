@@ -6,19 +6,16 @@ Player::Player()
 }
 
 string Player::receive() {
-	char *str = new char[MAX_TEXT];
-	string result;
+	//char *str = new char[MAX_TEXT];
+	char str[MAX_TEXT];
 	int check = recv(socket, str, sizeof(str) , 0);
 
-	for (size_t i = 0; i < strlen(str); i++) {
-		result.push_back(str[i]);
-	}
 	if (check == SOCKET_ERROR) {
 		closesocket(socket);
 		return string();
 	}
-	result[check] = NULL;
-	return result;
+	str[check] = NULL;
+	return string(str);
 }
 
 bool Player::sendAText(string text) {

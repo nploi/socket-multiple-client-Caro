@@ -96,7 +96,7 @@ int main()
 				}
 				else
 				{
-					cout << "You won!!!" << endl;
+					cout << "You lose!!" << endl;
 					break;
 				}
 			}
