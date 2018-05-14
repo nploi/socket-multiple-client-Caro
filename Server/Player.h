@@ -16,7 +16,7 @@
 #include <string.h>
 #include <string>
 
-#define MAX_TEXT 256
+#define MAX_TEXT 50
 
 using namespace std;
 

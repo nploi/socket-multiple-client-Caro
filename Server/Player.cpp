@@ -8,14 +8,16 @@ Player::Player()
 string Player::receive() {
 	char *str = new char[MAX_TEXT];
 	string result;
-	int check = recv(socket, str, sizeof(str) - 1, 0);
-	for (size_t i = 0; str[i] != NULL; i++) {
+	int check = recv(socket, str, sizeof(str) , 0);
+
+	for (size_t i = 0; i < strlen(str); i++) {
 		result.push_back(str[i]);
 	}
 	if (check == SOCKET_ERROR) {
 		closesocket(socket);
 		return string();
 	}
+	result[check] = NULL;
 	return result;
 }
 
