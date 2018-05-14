@@ -90,20 +90,19 @@ int main()
 			in >> x >> y >> win;
 			if (buff == "exit")
 			{
-				cout << "Congratulate!!! You win" << endl;
-				system("pause");
+				cout << endl << "Congratulate!!! You win" << endl;
 				break;
 			}
 			if (win == 1)
 			{
-				cout << "You win!!!Congratulation" << endl;
+				cout << endl << "You win!!!Congratulation" << endl;
 				break;
 			}
 			else
 			{
 				if (win == -1)
 				{
-					cout << "You close!!!" << endl;
+					cout << endl << "You close!!!" << endl;
 					break;
 				}
 			}
@@ -119,20 +118,19 @@ int main()
 			game.display();
 			if (buff == "exit")
 			{
-				cout << "Congratulate!!! You win" << endl;
-				system("pause");
+				cout << endl << "Congratulate!!! You win" << endl;
 				break;
 			}
 			if (win == 1)
 			{
-				cout << "You win!!!Congratulation" << endl;
+				cout << endl << "You win!!!Congratulation" << endl;
 				break;
 			}
 			else
 			{
 				if (win == -1)
 				{
-					cout << "You close!!!" << endl;
+					cout << endl << "You close!!!" << endl;
 					break;
 				}
 			}
@@ -141,5 +139,7 @@ int main()
 		n++;
 	}
 	system("pause");
+	closesocket(client.getClient());
+	WSACleanup();
 	return 0;
 }
