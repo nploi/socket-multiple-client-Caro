@@ -40,7 +40,6 @@ public:
 	string Receive();
 
 	static unsigned _stdcall SendThread(void* param);
-
 	~SocketClient();
 
 private:

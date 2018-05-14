@@ -14,8 +14,8 @@
 
 using namespace std;
 
-#define WIN 3
-#define MAX_SIZE 5
+#define WIN 4
+#define MAX_SIZE 10
 
 class Map {
 public:

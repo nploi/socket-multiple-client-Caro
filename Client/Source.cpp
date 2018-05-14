@@ -55,12 +55,13 @@ int main()
 	buff.clear();
 	buff = client.Receive();
 	int n = (int)buff[0] - 48;
-	
-	int x, y, win;
-	char msg[BUFF_SIZE];
+	cout << "Toi la thang danh " << n;
+	int x, y;
+	char win;
 	Map game;
 	game.display();
 	_beginthreadex(0, 0, client.SendThread, (void *)client.getClient(), 0, 0);//thread send point
+
 	while (1)
 	{
 		buff.clear();
@@ -71,20 +72,36 @@ int main()
 			system("pause");
 			break;
 		}
-		x = (int)buff[0]-48;//buff[1]=' '
+		x = (int)buff[0]-48;
 		y = (int)buff[1]-48;
-		win = (int)buff[2]-48;
-		game.chess(x, y, ((n % 2 == 0) ? 'X' : 'O'));
-		game.display();
-		if (win != 0)
+		win = (int)buff[2];
+		if (win == '6') //6 la nhan (x,y) cua chinh minh
 		{
-			cout << "Congratulate!!! You win" << endl;
-			system("pause");
-			break;
+			game.chess(x, y, ((n % 2 == 0) ? 'X' : 'O'));
+			game.display();
 		}
-		n++;
+		else
+		{
+			if (win == '9')//9 la nhan (x,y) tu doi phuong
+			{
+				game.chess(x, y, ((n % 2 == 0) ? 'O' : 'X'));
+				game.display();
+			}
+			else
+			{
+				if (win == '1')
+				{
+					cout << "Congratulate!!! You win" << endl;
+					break;
+				}
+				else
+				{
+					cout << "You won!!!" << endl;
+					break;
+				}
+			}
+		}
 	}
-
 	system("pause");
 	return 0;
 }

@@ -49,7 +49,7 @@ int Match::communication(Player player01, Player player02, Map &game) {
 
 	} while (!game.isValid(x, y));
 
-	cout << player01.name << " sent " << data << endl;
+	cout << player01.name << " sent (" << x << ", " << y << ")"<< endl;
 
 	game.chess(x, y, player01.chessman);
 	win = game.isWin(x, y, player01.chessman);
@@ -65,7 +65,7 @@ int Match::communication(Player player01, Player player02, Map &game) {
 		player01.sendAText(os1.str());
 		ostringstream os;
 		os.clear();
-		os << x << y << "-1" << endl;
+		os << x << y << "0" << endl;//repair
 		cout << endl << "Sent to " << player01.name << " : " <<  os.str() << endl;
 		Sleep(200);
 		player02.sendAText(os.str());
@@ -75,14 +75,16 @@ int Match::communication(Player player01, Player player02, Map &game) {
 	else {
 		ostringstream os;
 		os.clear();
-		os << x << y << "0" << endl;
+		os << x << y << "6" << endl;//repair
 		cout << endl << "Sent to " << player02.name << " : " << os.str() << endl;
 		Sleep(200);
 		player01.sendAText(os.str());
-
-		cout << endl << "Sent to " << player01.name << " : " << os.str() << endl;
+		ostringstream os1;//repair
+		os1.clear();//repair
+		os1 << x << y << "9" << endl;//repair
+		cout << endl << "Sent to " << player01.name << " : " << os1.str() << endl;//repair
 		Sleep(200);
-		player02.sendAText(os.str());
+		player02.sendAText(os1.str());//repair
 	}
 
 	// not win
