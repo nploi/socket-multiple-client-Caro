@@ -39,7 +39,7 @@ int main()
 		//gui username cho server
 		client.registerUsername(username);
 		buff = client.Receive();			//nhan lai kq dang ki username(1: thanh cong, 0: Nhap lai)
-		
+
 		if (buff.empty()){
 			cout << "Disconnect to server !!\n";
 			return 0;
@@ -56,13 +56,27 @@ int main()
 	} while (1);
 
 	//TODO(FIX)
-	
+
 	//_beginthreadex(0, 0, client.SendThread, (void *)client.getClient(), 0, 0);//thread send point
 	do
 	{
-		buff.clear();
-		buff = client.Receive();
-		int n = (int)buff[0] - 48;
+		int n;
+		cout << "Finding player ...\n";
+		do {
+			buff.clear();
+			buff = client.Receive();
+			if (buff.empty()) {
+				cout << "Disconnect to server ... !!\n";
+				closesocket(client.getClient());
+				WSACleanup();
+				system("pause");
+				return 0;
+			}
+			n = (int)buff[0] - 48;
+			if (n == 0 || n == 1)
+				break;
+		} while (true);
+		system("cls");
 		char client1 = ((n % 2 == 0) ? 'X' : 'O');
 		char client2 = (!(n % 2 == 0) ? 'X' : 'O');
 
@@ -167,8 +181,9 @@ int main()
 			cout << "Error!!! Only selected 0 or 1" << endl;
 		}
 		client.PlayContinue(valContinue);
-		if (valContinue == 1)
+		if (valContinue == 1){
 			cout << "Continue---->" << endl;
+		}
 		else
 		{
 			cout << "Stop!!!" << endl;

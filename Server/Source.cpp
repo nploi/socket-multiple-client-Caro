@@ -97,7 +97,6 @@ int main() {
 		If cannot init socket for server, program will throw exception
 		*/
 	SocketServer server;
-	pthread_t threadOfQueue;
 	try {
 		server.init(PORT, SERVER_ADDR);
 	}
@@ -149,6 +148,7 @@ void *registerAccount(void *param) {
 			queuePlayers.push(*client);
 			//if register succes, will send for client '1' and '0' is fail
 			client->sendAText(sucess);
+			checkQueue();
 			break;
 		}
 		else {
@@ -162,7 +162,7 @@ void *registerAccount(void *param) {
 
 	pthread_cancel(client->thread);
 	
-	checkQueue();
+	
 
 	return NULL;
 }
@@ -199,8 +199,8 @@ void *startMatch(void *param) {
 			queuePlayers.push(newMatch->players[0]);
 		}
 		checkQueue();
-		if (playContinue(newMatch->players[0])) {
-			queuePlayers.push(newMatch->players[0]);
+		if (playContinue(newMatch->players[1])) {
+			queuePlayers.push(newMatch->players[1]);
 		}
 		checkQueue();
 		break;
@@ -231,7 +231,7 @@ int communication(Player player01, Player player02, Map &game) {
 	win = game.isWin(x, y, player01.chessman);
 
 
-	if (win == true) {
+	if (win == 1) {
 		ostringstream os1;
 		os1 << x << " " << y << " 1 ";
 		cout << "Sent to " << player02.name << ": " << os1.str() << endl;
@@ -259,11 +259,12 @@ int playContinue(Player &player) {
 	if (check.empty()) {
 		return 0;
 	}
-	if (check == "1") {
+	if (check[0] == '1') {
 		queuePlayers.push(player);
 		return 1;
 	}
-	if (check == "0") {
+	if (check[0] == '0') {
 		return 0;
 	}
+	return false;
 }
