@@ -180,6 +180,14 @@ public:
 		return true;
 	}
 
+
+	bool isChess(int x, int y) {
+		if (map[x][y] != 'O' && map[x][y] != 'X'){
+			return true;
+		}
+		return false;
+	}
+
 	~Map(){
 		if (map.empty())
 			return;
