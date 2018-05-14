@@ -21,7 +21,7 @@ using namespace std;
 
 #define PORT 5454
 #define SERVER_ADDR "127.0.0.1"
-#define BUFF_SIZE 2048
+#define BUFF_SIZE 50
 #define ERROR_INIT 1001
 
 class SocketClient

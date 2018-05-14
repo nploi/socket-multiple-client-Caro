@@ -13,7 +13,7 @@
 #include "Match.h"
 using namespace std;
 
-#define BUFF_SIZE 256
+#define BUFF_SIZE 50
 
 //Content the names of client
 map<string, bool> hash;
