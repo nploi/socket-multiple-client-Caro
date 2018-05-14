@@ -33,9 +33,9 @@ public:
 	
 	void InitClient(const char* server_addr, const int port);
 
-	void registerUsername(string username);
+	int registerUsername(string username);
 
-	void Send(char buff[]);
+	int Send(const char buff[]);
 
 	string Receive();
 

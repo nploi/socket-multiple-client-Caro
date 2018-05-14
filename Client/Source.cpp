@@ -39,6 +39,12 @@ int main()
 		//gui username cho server
 		client.registerUsername(username);
 		buff = client.Receive();			//nhan lai kq dang ki username(1: thanh cong, 0: Nhap lai)
+		
+		if (buff.empty()){
+			cout << "Disconnect to server !!\n";
+			return 0;
+		}
+
 		if ((int)buff[0] == '1')
 		{
 			cout << "Register success !!" << endl;
@@ -80,12 +86,17 @@ int main()
 			point[0] = (char)(x + 48);
 			point[1] = ' ';
 			point[2] = (char)(y + 48);
-			client.Send(point);
+			int check = client.Send(point);
+
 			game.chess(x, y, client1);
 			game.display();
 			
 			buff.clear();
 			buff = client.Receive();
+			if (buff.empty()){
+				cout << "Disconnect to server !!\n";
+				break;
+			}
 			std::istringstream in(buff);
 			in >> x >> y >> win;
 			if (buff == "exit")
@@ -113,6 +124,12 @@ int main()
 			win = 0;
 			buff.clear();
 			buff = client.Receive();
+			
+			if (buff.empty()){
+				cout << "Disconnect to server !!\n";
+				break;
+			}
+
 			std::istringstream in(buff);
 			in >> x >> y >> win;
 			game.chess(x, y, client2);

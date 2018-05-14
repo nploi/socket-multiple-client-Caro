@@ -33,17 +33,20 @@ void SocketClient::InitClient(const char* server_addr, int port)
 	connect(this->server, (sockaddr *)&addr, sizeof(addr));
 }
 
-void SocketClient::registerUsername(string username)
+int SocketClient::registerUsername(string username)
 {
-	//char buff[BUFF_SIZE];
-	//memset(&buff, 0, sizeof(buff));
-	//buff = username.c_str();
-	send(this->server, username.c_str(), strlen(username.c_str()), 0);
+	return Send(username.c_str());
 }
 
-void SocketClient::Send(char buff[])
+int SocketClient::Send(const char buff[])
 {
-	send(this->server, buff, sizeof(buff), 0);
+	int check = send(server, buff, sizeof(buff), 0);
+
+	if (check != SOCKET_ERROR) {
+		return 1;
+	}
+	//closesocket(server);
+	return 0;
 }
 
 string SocketClient::Receive()
@@ -51,7 +54,7 @@ string SocketClient::Receive()
 	char str[BUFF_SIZE];
 	int check = recv(this->server, str, sizeof(str), 0);
 	if (check == SOCKET_ERROR) {
-		closesocket(this->server);
+		//closesocket(this->server);
 		return string();
 	}
 	str[check] = NULL;
