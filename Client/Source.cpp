@@ -8,12 +8,12 @@
 
 
 #include "SocketClient.h"
+#include <sstream>
 
 int main()
 {
 	SocketClient client;
 	string buff;
-	char* message;
 	//init client
 	try
 	{
@@ -55,52 +55,90 @@ int main()
 	buff.clear();
 	buff = client.Receive();
 	int n = (int)buff[0] - 48;
-	cout << "Toi la thang danh " << n;
+	char client1 = ((n % 2 == 0) ? 'X' : 'O');
+	char client2 = (!(n % 2 == 0) ? 'X' : 'O');
+
 	int x, y;
-	char win;
+	char point[2];
+	int win;
 	Map game;
 	game.display();
-	_beginthreadex(0, 0, client.SendThread, (void *)client.getClient(), 0, 0);//thread send point
-
+	//_beginthreadex(0, 0, client.SendThread, (void *)client.getClient(), 0, 0);//thread send point
 	while (1)
 	{
-		buff.clear();
-		buff = client.Receive();
-		if (buff == "exit")
+		if (n % 2 != 0)
 		{
-			cout << "Congratulate!!! You win" << endl;
-			system("pause");
-			break;
-		}
-		x = (int)buff[0]-48;
-		y = (int)buff[1]-48;
-		win = (int)buff[2];
-		if (win == '6') //6 la nhan (x,y) cua chinh minh
-		{
-			game.chess(x, y, ((n % 2 == 0) ? 'X' : 'O'));
-			game.display();
-		}
-		else
-		{
-			if (win == '9')//9 la nhan (x,y) tu doi phuong
+			win = 0;
+			do
 			{
-				game.chess(x, y, ((n % 2 == 0) ? 'O' : 'X'));
-				game.display();
+				cout << "\nSelect cell (x, y): " << endl;
+				cin >> x >> y;
+				if (!game.isValid(x, y))
+					cout << "Cell error!!!. Please select cell again." << endl;
+			} while (!game.isValid(x, y));
+			memset(&buff, 0, sizeof(point));
+			point[0] = (char)(x + 48);
+			point[1] = ' ';
+			point[2] = (char)(y + 48);
+			client.Send(point);
+			game.chess(x, y, client1);
+			game.display();
+			
+			buff.clear();
+			buff = client.Receive();
+			std::istringstream in(buff);
+			in >> x >> y >> win;
+			if (buff == "exit")
+			{
+				cout << "Congratulate!!! You win" << endl;
+				system("pause");
+				break;
+			}
+			if (win == 1)
+			{
+				cout << "You win!!!Congratulation" << endl;
+				break;
 			}
 			else
 			{
-				if (win == '1')
+				if (win == -1)
 				{
-					cout << "Congratulate!!! You win" << endl;
-					break;
-				}
-				else
-				{
-					cout << "You lose!!" << endl;
+					cout << "You close!!!" << endl;
 					break;
 				}
 			}
 		}
+		else
+		{
+			win = 0;
+			buff.clear();
+			buff = client.Receive();
+			std::istringstream in(buff);
+			in >> x >> y >> win;
+			game.chess(x, y, client2);
+			game.display();
+			if (buff == "exit")
+			{
+				cout << "Congratulate!!! You win" << endl;
+				system("pause");
+				break;
+			}
+			if (win == 1)
+			{
+				cout << "You win!!!Congratulation" << endl;
+				break;
+			}
+			else
+			{
+				if (win == -1)
+				{
+					cout << "You close!!!" << endl;
+					break;
+				}
+			}
+
+		}
+		n++;
 	}
 	system("pause");
 	return 0;

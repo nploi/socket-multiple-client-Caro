@@ -48,10 +48,14 @@ void SocketClient::Send(char buff[])
 
 string SocketClient::Receive()
 {
-	char buff[BUFF_SIZE];
-	memset(&buff, 0, sizeof(buff));
-	recv(this->server, buff, sizeof(buff), 0);
-	return string(buff);
+	char str[BUFF_SIZE];
+	int check = recv(this->server, str, sizeof(str), 0);
+	if (check == SOCKET_ERROR) {
+		closesocket(this->server);
+		return string();
+	}
+	str[check] = NULL;
+	return string(str);
 }
 
 unsigned _stdcall SocketClient::SendThread(void* param)

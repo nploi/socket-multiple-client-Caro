@@ -8,8 +8,7 @@ Player::Player()
 string Player::receive() {
 	//char *str = new char[MAX_TEXT];
 	char str[MAX_TEXT];
-	int check = recv(socket, str, sizeof(str) , 0);
-
+	int check = recv(socket, str, sizeof(str), 0);
 	if (check == SOCKET_ERROR) {
 		closesocket(socket);
 		return string();
@@ -19,7 +18,7 @@ string Player::receive() {
 }
 
 bool Player::sendAText(string text) {
-	int check = send(socket, text.c_str(), sizeof(text.c_str()), 0);
+	int check = send(socket, text.c_str(), text.size(), 0);
 
 	if (check != SOCKET_ERROR) {
 		return 1;
