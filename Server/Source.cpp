@@ -199,6 +199,14 @@ void *startMatch(void *param) {
 		if (agree01 && agree02) {
 			continue;
 		}
+		if (agree01) {
+			queuePlayers.push(newMatch->players[0]);
+			checkQueue();
+		}
+		if (agree02) {
+			queuePlayers.push(newMatch->players[1]);
+			checkQueue();
+		}
 		break;
 	}
 	pthread_cancel(newMatch->thread);
@@ -250,7 +258,6 @@ int communication(Player player01, Player player02, Map &game) {
 		os << x << " " << y << " 0 ";
 		
 		cout << "Sent to " << player01.name << " : " << os.str() << endl;
-		player02.sendAText(os.str());
 		if (!player02.sendAText(os.str())){
 			player01.sendAText("exit");
 			cout << player02.name << " did disconnect !!\n";
@@ -272,8 +279,6 @@ int playContinue(Player &player) {
 		return 0;
 	}
 	if (check[0] == '1') {
-		queuePlayers.push(player);
-		checkQueue();
 		return 1;
 	}
 	if (check[0] == '0') {
