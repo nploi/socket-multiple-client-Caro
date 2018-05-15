@@ -192,17 +192,12 @@ void *startMatch(void *param) {
 			}
 			n++;
 		}
-		if (playContinue(newMatch->players[0]) && playContinue(newMatch->players[1]))
+		int agree01 = 0, agree02 = 0;
+		agree01 = playContinue(newMatch->players[0]);
+		agree02 = playContinue(newMatch->players[1]);
+		if (agree01 && agree02) {
 			continue;
-
-		if (playContinue(newMatch->players[0])) {
-			queuePlayers.push(newMatch->players[0]);
 		}
-		checkQueue();
-		if (playContinue(newMatch->players[1])) {
-			queuePlayers.push(newMatch->players[1]);
-		}
-		checkQueue();
 		break;
 	}
 	pthread_cancel(newMatch->thread);
@@ -261,6 +256,7 @@ int playContinue(Player &player) {
 	}
 	if (check[0] == '1') {
 		queuePlayers.push(player);
+		checkQueue();
 		return 1;
 	}
 	if (check[0] == '0') {
