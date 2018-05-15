@@ -76,7 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Map.h" />
+    <ClInclude Include="..\lib\Map.h" />
     <ClInclude Include="SocketClient.h" />
   </ItemGroup>
   <ItemGroup>

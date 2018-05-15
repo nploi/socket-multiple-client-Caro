@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Map.h">
+    <ClInclude Include="SocketClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SocketClient.h">
+    <ClInclude Include="..\lib\Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

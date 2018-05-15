@@ -12,7 +12,7 @@
 #include "Player.h"
 #include <vector>
 #include <sstream>
-#include "Map.h"
+#include "..\lib\Map.h"
 #include <queue>
 
 using namespace std;

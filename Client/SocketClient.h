@@ -14,7 +14,8 @@
 #include <string.h>
 #include <string>
 #include <WS2tcpip.h>
-#include "Map.h"
+#include "..\lib\Map.h"
+
 using namespace std;
 
 #pragma comment (lib, "Ws2_32.lib")

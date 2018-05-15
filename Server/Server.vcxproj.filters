@@ -38,7 +38,7 @@
     <ClInclude Include="SocketServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
+    <ClInclude Include="..\lib\Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
