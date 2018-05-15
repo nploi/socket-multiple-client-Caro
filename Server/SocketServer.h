@@ -17,7 +17,6 @@
 #define SERVER_ADDR "127.0.0.1"
 #define MAX_CLIENT 100
 #define ERROR_INIT 1001
-#define MAX_TEXT 256
 
 using namespace std;
 

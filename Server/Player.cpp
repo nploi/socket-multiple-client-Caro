@@ -6,7 +6,6 @@ Player::Player()
 }
 
 string Player::receive() {
-	//char *str = new char[MAX_TEXT];
 	char str[MAX_TEXT];
 	int check = recv(socket, str, sizeof(str), 0);
 	if (check == SOCKET_ERROR) {

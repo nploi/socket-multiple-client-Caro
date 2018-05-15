@@ -109,17 +109,18 @@ int main()
 
 				buff.clear();
 				buff = client.Receive();
+
 				if (buff.empty()) {
 					cout << "Disconnect to server !!\n";
 					break;
 				}
-				std::istringstream in(buff);
-				in >> x >> y >> win;
-				if (buff == "exit")
+				if ("exit" == buff.substr(0, 4)) 
 				{
 					cout << endl << "Congratulate!!! You win" << endl;
 					break;
 				}
+				std::istringstream in(buff);
+				in >> x >> y >> win;
 				if (win == 1)
 				{
 					cout << endl << "You win!!!Congratulation" << endl;

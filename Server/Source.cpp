@@ -18,6 +18,7 @@ using namespace std;
 //Content the names of client
 map<string, bool> hash;
 
+//Queue content players when it connected
 queue<Player> queuePlayers;
 
 
@@ -230,21 +231,37 @@ int communication(Player player01, Player player02, Map &game) {
 		ostringstream os1;
 		os1 << x << " " << y << " 1 ";
 		cout << "Sent to " << player02.name << ": " << os1.str() << endl;
-		player01.sendAText(os1.str());
+		if (!player01.sendAText(os1.str())){
+			player02.sendAText("exit");
+			cout << player01.name << " did disconnect !!\n";
+		}
 		ostringstream os;
 		os << x << " " << y << " -1 " << endl;
 		cout << "Sent to " << player01.name << ": " << os.str() << endl;
-		player02.sendAText(os.str());
+		if (!player02.sendAText(os.str())){
+			player01.sendAText("exit");
+			cout << player02.name << " did disconnect !!\n";
+		}
 		return 1;
 
 	}
 	else {
 		ostringstream os;
 		os << x << " " << y << " 0 ";
-		cout << "Sent to " << player02.name << " : " << os.str() << endl;
-		player01.sendAText(os.str());
+		
 		cout << "Sent to " << player01.name << " : " << os.str() << endl;
 		player02.sendAText(os.str());
+		if (!player02.sendAText(os.str())){
+			player01.sendAText("exit");
+			cout << player02.name << " did disconnect !!\n";
+		}
+
+		cout << "Sent to " << player02.name << " : " << os.str() << endl;
+		if (!player01.sendAText(os.str())){
+			player02.sendAText("exit");
+			cout << player01.name << " did disconnect !!\n";
+		}
+
 	}
 	return 0;
 }
