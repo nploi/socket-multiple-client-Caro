@@ -89,14 +89,6 @@ unsigned _stdcall SocketClient::SendThread(void* param)
 	return 0;
 }
 
-int SocketClient::PlayContinue(int &valContinue)
-{
-	char* val;
-	val = new char;
-	val[0] = (char)(valContinue + 48);
-	return Send(val);
-}
-
 
 SocketClient::~SocketClient()
 {

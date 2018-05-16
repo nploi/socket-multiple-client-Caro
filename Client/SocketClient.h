@@ -42,7 +42,6 @@ public:
 
 	static unsigned _stdcall SendThread(void* param);
 
-	int PlayContinue(int &valContinue);
 	~SocketClient();
 
 private:

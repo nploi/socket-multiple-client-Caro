@@ -10,10 +10,35 @@
 #include "SocketClient.h"
 #include <sstream>
 
+int findPlayer(SocketClient &client, string buff)
+{
+	int n;
+	cout << "Finding player ...\n";
+	do {
+		buff.clear();
+		buff = client.Receive();
+		if (buff.empty())
+			return -1;
+		n = (int)buff[0] - 48;
+		if (n == 0 || n == 1)
+			break;
+	} while (1);
+	return n;
+}
+
+int playContinue(SocketClient &client, int valContinue)
+{
+	char* val;
+	val = new char;
+	val[0] = (char)(valContinue + 48);
+	return client.Send(val);
+}
+
 int main()
 {
 	SocketClient client;
 	string buff;
+
 	//init client
 	try
 	{
@@ -34,11 +59,12 @@ int main()
 	string username;
 	do
 	{
-		cout << "Username is: ";
+		cout << "Username of Player: ";
 		getline(cin, username);
-		//gui username cho server
 		client.registerUsername(username);
-		buff = client.Receive();			//nhan lai kq dang ki username(1: thanh cong, 0: Nhap lai)
+
+		//nhan lai kq dang ki username(1: thanh cong, 0: Nhap lai)
+		buff = client.Receive();
 
 		if (buff.empty()){
 			cout << "Disconnect to server !!\n";
@@ -61,26 +87,19 @@ int main()
 	do
 	{
 		int n;
-		cout << "Finding player ...\n";
-		do {
-			buff.clear();
-			buff = client.Receive();
-			if (buff.empty()) {
-				cout << "Disconnect to server ... !!\n";
-				closesocket(client.getClient());
-				WSACleanup();
-				system("pause");
-				return 0;
-			}
-			n = (int)buff[0] - 48;
-			if (n == 0 || n == 1)
-				break;
-		} while (true);
+		n = findPlayer(client, buff);
+		if (n == -1)
+		{
+			cout << "Disconnect to server ... !!\n";
+			closesocket(client.getClient());
+			WSACleanup();
+			system("pause");
+		}
 		system("cls");
-		char client1 = ((n % 2 == 0) ? 'X' : 'O');
-		char client2 = (!(n % 2 == 0) ? 'X' : 'O');
+		char chessMan1 = ((n % 2 == 0) ? 'X' : 'O');
+		char chessMan2 = (!(n % 2 == 0) ? 'X' : 'O');
 
-
+		//Play mini game
 		int x, y;
 		char point[2];
 		int win;
@@ -104,7 +123,7 @@ int main()
 				point[2] = (char)(y + 48);
 				int check = client.Send(point);
 
-				game.chess(x, y, client1);
+				game.chess(x, y, chessMan1);
 				game.display();
 
 				buff.clear();
@@ -116,14 +135,14 @@ int main()
 				}
 				if ("exit" == buff.substr(0, 4)) 
 				{
-					cout << endl << "Congratulate!!! You win" << endl;
+					cout << endl << "Congratulation!!! You win" << endl;
 					break;
 				}
 				std::istringstream in(buff);
 				in >> x >> y >> win;
 				if (win == 1)
 				{
-					cout << endl << "You win!!!Congratulation" << endl;
+					cout << endl << "You win!!! Congratulation" << endl;
 					break;
 				}
 				else
@@ -148,16 +167,16 @@ int main()
 
 				std::istringstream in(buff);
 				in >> x >> y >> win;
-				game.chess(x, y, client2);
+				game.chess(x, y, chessMan2);
 				game.display();
 				if (buff == "exit")
 				{
-					cout << endl << "Congratulate!!! You win" << endl;
+					cout << endl << "Congratulation!!! You win" << endl;
 					break;
 				}
 				if (win == 1)
 				{
-					cout << endl << "You win!!!Congratulation" << endl;
+					cout << endl << "You win!!! Congratulation" << endl;
 					break;
 				}
 				else
@@ -172,6 +191,8 @@ int main()
 			}
 			n++;
 		}
+
+		//select continue
 		int valContinue;
 		while (1)
 		{
@@ -179,11 +200,11 @@ int main()
 			cin >> valContinue;
 			if (valContinue == 1 || valContinue == 0)
 				break;
-			cout << "Error!!! Only selected 0 or 1" << endl;
+			cout << "Error!!! Only select 0 or 1" << endl;
 		}
-		client.PlayContinue(valContinue);
-		if (valContinue == 1){
-			cout << "Continue---->" << endl;
+		playContinue(client, valContinue);
+		if (valContinue == 1) {
+			cout << "Continue play chess" << endl;
 		}
 		else
 		{
