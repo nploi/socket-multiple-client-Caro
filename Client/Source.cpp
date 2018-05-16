@@ -19,16 +19,17 @@
 	agree: 0 or 1
 	not agree: -1
 */
-int findPlayer(SocketClient &client, string buff)
+int findPlayer(SocketClient &client, string buff, string &opponentName)
 {
 	int n;
-	cout << "Finding player ...\n";
+	cout << "Finding player ..."<<endl;
 	do {
 		buff.clear();
 		buff = client.Receive();
 		if (buff.empty())
 			return -1;
 		n = (int)buff[0] - 48;
+		opponentName = buff.substr(2,buff.length()-2);
 		if (n == 0 || n == 1)
 			break;
 	} while (1);
@@ -57,7 +58,8 @@ int main()
 {
 	SocketClient client;
 	string buff;
-
+	int quanlityWin=0;
+	int totalMatch=0;
 	//init client
 	try
 	{
@@ -108,7 +110,8 @@ int main()
 	do
 	{
 		int n;
-		n = findPlayer(client, buff);
+		string opponentName;
+		n = findPlayer(client, buff, opponentName);
 		if (n == -1)
 		{
 			cout << "Disconnect to server... !!!" << endl;
@@ -119,7 +122,7 @@ int main()
 		system("cls");
 		char chessMan1 = ((n % 2 == 0) ? 'X' : 'O');
 		char chessMan2 = (!(n % 2 == 0) ? 'X' : 'O');
-
+		totalMatch++;
 		//communicate between two client
 		int x, y;
 		char point[2];
@@ -128,12 +131,14 @@ int main()
 		game.display();
 		while (1)
 		{
+			cout << endl << "~*~*~*~ PLAY CHESS GAME ~*~*~*~" << endl;
+			cout << username << " VS " << opponentName << endl;	//note name's player with name's opponent
 			if (n % 2 != 0)
 			{
 				win = 0;
 				do
 				{
-					cout << endl << "Select cell (x, y): " << endl;
+					cout << endl << ">>> Select cell (x, y): " << endl;
 					cin >> x >> y;
 					if (!game.isValid(x, y) || !game.isChess(x, y))
 						cout << "Cell error!!! Please select cell again." << endl;
@@ -165,6 +170,7 @@ int main()
 				if (win == 1)
 				{
 					cout << endl << "You win!!! Congratulation" << endl;
+					quanlityWin++;
 					break;
 				}
 				else
@@ -179,7 +185,7 @@ int main()
 			else
 			{
 				//receive point(x, y) from opponent
-				cout << endl << "Waiting to session...." << endl;
+				cout << endl << ">>> Waiting to session...." << endl;
 				win = 0;
 				buff.clear();
 				buff = client.Receive();
@@ -201,6 +207,7 @@ int main()
 				if (win == 1)
 				{
 					cout << endl << "You win!!! Congratulation" << endl;
+					quanlityWin++;
 					break;
 				}
 				else
@@ -216,11 +223,13 @@ int main()
 			n++;
 		}
 
+		cout <<endl << "You Won " << quanlityWin << "/" << totalMatch << endl;
+
 		//select continue
 		int valContinue;
 		while (1)
 		{
-			cout << "Do you want continue? Select 1 to continue or 0 to stop" << endl;
+			cout <<endl << "Do you want continue? Select 1 to continue or 0 to stop" << endl;
 			cin >> valContinue;
 			if (valContinue == 1 || valContinue == 0)
 				break;
