@@ -10,6 +10,15 @@
 #include "SocketClient.h"
 #include <sstream>
 
+/*
+@describe
+	find opponent. if exists opponent return n (variable character 0 -> 'O' or 1 -> 'X'), else return -1;
+@param
+	socket & buff 
+@return
+	agree: 0 or 1
+	not agree: -1
+*/
 int findPlayer(SocketClient &client, string buff)
 {
 	int n;
@@ -26,6 +35,16 @@ int findPlayer(SocketClient &client, string buff)
 	return n;
 }
 
+
+/*
+@describe
+	Ask player have play continue or haven't play conntinue. Player seclect 1 to continue or 0 to stop
+@param
+	socket & value continue
+@return
+	agree: return 1 if send to server success  
+	not agree: return 0 if error
+*/
 int playContinue(SocketClient &client, int valContinue)
 {
 	char* val;
@@ -55,7 +74,7 @@ int main()
 			cout << "Connected to server" << endl;
 	}
 
-	//gui username
+	//register username
 	string username;
 	do
 	{
@@ -63,7 +82,7 @@ int main()
 		getline(cin, username);
 		client.registerUsername(username);
 
-		//nhan lai kq dang ki username(1: thanh cong, 0: Nhap lai)
+		//receive result register username(1: success, 0: error. Do again)
 		buff = client.Receive();
 
 		if (buff.empty()){
@@ -77,20 +96,22 @@ int main()
 			break;
 		}
 		else
-			cout << "Username existed. Please register username again!!!" << endl;
+			cout << "Username existed. Please select username different!!!" << endl;
 		buff.clear();
 	} while (1);
 
 	//TODO(FIX)
 
 	//_beginthreadex(0, 0, client.SendThread, (void *)client.getClient(), 0, 0);//thread send point
+
+
 	do
 	{
 		int n;
 		n = findPlayer(client, buff);
 		if (n == -1)
 		{
-			cout << "Disconnect to server ... !!\n";
+			cout << "Disconnect to server... !!!" << endl;
 			closesocket(client.getClient());
 			WSACleanup();
 			system("pause");
@@ -99,7 +120,7 @@ int main()
 		char chessMan1 = ((n % 2 == 0) ? 'X' : 'O');
 		char chessMan2 = (!(n % 2 == 0) ? 'X' : 'O');
 
-		//Play mini game
+		//communicate between two client
 		int x, y;
 		char point[2];
 		int win;
@@ -112,10 +133,10 @@ int main()
 				win = 0;
 				do
 				{
-					cout << "\nSelect cell (x, y): " << endl;
+					cout << endl << "Select cell (x, y): " << endl;
 					cin >> x >> y;
 					if (!game.isValid(x, y) || !game.isChess(x, y))
-						cout << "Cell error!!!. Please select cell again." << endl;
+						cout << "Cell error!!! Please select cell again." << endl;
 				} while (!game.isValid(x, y) || !game.isChess(x, y));
 				memset(&buff, 0, sizeof(point));
 				point[0] = (char)(x + 48);
@@ -126,11 +147,12 @@ int main()
 				game.chess(x, y, chessMan1);
 				game.display();
 
+				//receive result win
 				buff.clear();
 				buff = client.Receive();
 
 				if (buff.empty()) {
-					cout << "Disconnect to server !!\n";
+					cout << "Disconnect to server... !!!" <<endl;
 					break;
 				}
 				if ("exit" == buff.substr(0, 4)) 
@@ -149,19 +171,21 @@ int main()
 				{
 					if (win == -1)
 					{
-						cout << endl << "You close!!!" << endl;
+						cout << endl << "You lost!!!" << endl;
 						break;
 					}
 				}
 			}
 			else
 			{
+				//receive point(x, y) from opponent
+				cout << endl << "Waiting to session...." << endl;
 				win = 0;
 				buff.clear();
 				buff = client.Receive();
 
 				if (buff.empty()) {
-					cout << "Disconnect to server !!\n";
+					cout << "Disconnect to server... !!!"<<endl;
 					break;
 				}
 
@@ -183,7 +207,7 @@ int main()
 				{
 					if (win == -1)
 					{
-						cout << endl << "You close!!!" << endl;
+						cout << endl << "You lost!!!" << endl;
 						break;
 					}
 				}
@@ -196,7 +220,7 @@ int main()
 		int valContinue;
 		while (1)
 		{
-			cout << "Do you play continue? ( 1->continue || 0->stop )" << endl;
+			cout << "Do you want continue? Select 1 to continue or 0 to stop" << endl;
 			cin >> valContinue;
 			if (valContinue == 1 || valContinue == 0)
 				break;
