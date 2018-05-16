@@ -147,9 +147,10 @@ void *registerAccount(void *param) {
 			::hash.insert(pair<string, bool>(userName, 1));
 			client->name = userName;
 			queuePlayers.push(*client);
+			checkQueue();
 			//if register succes, will send for client '1' and '0' is fail
 			client->sendAText(sucess);
-			checkQueue();
+
 			break;
 		}
 		else {
@@ -180,9 +181,9 @@ void *startMatch(void *param) {
 		int n = 0;
 		int check = 0;
 		newMatch->players[0].chessman = (chessMan % 2 == 0) ? 'X' : 'O';
-		newMatch->players[0].sendAText(((chessMan % 2 == 0) ? "0" : "1"));
+		newMatch->players[0].sendAText(((chessMan % 2 == 0) ? "0" : "1") + string(" ") + newMatch->players[1].name);
 		newMatch->players[1].chessman = !(chessMan % 2 == 0) ? 'X' : 'O';
-		newMatch->players[1].sendAText((!(chessMan % 2 == 0) ? "0" : "1"));
+		newMatch->players[1].sendAText((!(chessMan % 2 == 0) ? "0" : "1") + string(" ") + newMatch->players[0].name);
 
 		while (check == 0) {
 			if (n % 2 == 0){
