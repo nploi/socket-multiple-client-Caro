@@ -89,6 +89,8 @@ void checkQueue() {
 		queuePlayers.pop();
 		m->addPlayer(queuePlayers.front());
 		queuePlayers.pop();
+		
+		// If have 2 players, will start new Match
 		pthread_create(&m->thread, NULL, startMatch, (void*)m);
 	}
 }
@@ -135,11 +137,12 @@ void *registerAccount(void *param) {
 	while (true) {
 
 		userName = client->receive();
+		// Client outed, will close socket
 		if (userName.empty()) {
 			closesocket(client->socket);
-			return NULL;
+			break;
 		}
-
+		// Check if user is exist, will send for client '0', else '1'
 		if ((bool)(::hash.find(userName) == ::hash.end()) == true) {
 
 			sucess = "1";
@@ -169,47 +172,50 @@ void *registerAccount(void *param) {
 }
 
 void *startMatch(void *param) {
-	//TODO(FIX)
+
 	int chessMan = 0;
-	Match* newMatch = (Match*)param;
+	Match* game = (Match*)param;
 	string text;
 
 	while (true) {
 		Player target;
-		Map game;
+		Map map;
 		int n = 0;
 		int check = 0;
-		newMatch->players[0].chessman = 'X';
-		newMatch->players[0].sendAText("0 " + newMatch->players[1].name);
-		newMatch->players[1].chessman = 'O';
-		newMatch->players[1].sendAText("1 " + newMatch->players[0].name);
+		// Send which player plays before
+		game->players[0].chessman = 'X';
+		game->players[0].sendAText("0 " + game->players[1].name);
+		game->players[1].chessman = 'O';
+		game->players[1].sendAText("1 " + game->players[0].name);
 
 		while (check == 0) {
 			if (n % 2 == 0){
-				check = communication(newMatch->players[1], newMatch->players[0], game);
+				check = communication(game->players[1], game->players[0], map);
 			}
 			else {
-				check = communication(newMatch->players[0], newMatch->players[1], game);
+				check = communication(game->players[0], game->players[1], map);
 			}
 			n++;
 		}
+
+		// Check players plays continue
 		int agree01 = 0, agree02 = 0;
-		agree01 = playContinue(newMatch->players[0]);
-		agree02 = playContinue(newMatch->players[1]);
+		agree01 = playContinue(game->players[0]);
+		agree02 = playContinue(game->players[1]);
 		if (agree01 && agree02) {
 			continue;
 		}
 		if (agree02) {
-			queuePlayers.push(newMatch->players[1]);
+			queuePlayers.push(game->players[1]);
 			checkQueue();
 		}
 		if (agree01) {
-			queuePlayers.push(newMatch->players[0]);
+			queuePlayers.push(game->players[0]);
 			checkQueue();
 		}
 		break;
 	}
-	pthread_cancel(newMatch->thread);
+	pthread_cancel(game->thread);
 	return NULL;
 }
 
@@ -220,7 +226,7 @@ int communication(Player player01, Player player02, Map &game) {
 		data = player01.receive();
 		if (data == string()) {
 			player02.sendAText("exit");
-			cout << player02.name << " did disconnect !!\n";
+			cout << player02.name << " outed !!\n";
 			return 2;
 		}
 
