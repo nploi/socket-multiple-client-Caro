@@ -94,7 +94,11 @@ int main()
 		buff = client.Receive();
 
 		if (buff.empty()){
-			Continue = 0;
+			cout << "ERROR! cannot init client" << endl;
+			closesocket(client.getClient());
+			WSACleanup();
+			system("pause");
+			exit(1);
 			break;
 		}
 
@@ -116,6 +120,8 @@ int main()
 		if (n == -1)
 		{
 			Continue = 0;
+			cout << "\nERROR!!\nDisconnect to server ... !\n";
+			break;
 		}
 		system("cls");
 		char chessMan1 = ((n % 2 == 0) ? 'X' : 'O');
