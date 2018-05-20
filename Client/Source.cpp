@@ -72,7 +72,10 @@ int main()
 		if (exception == ERROR_INIT)
 		{
 			cout << "ERROR! cannot init client" << endl;
+			closesocket(client.getClient());
+			WSACleanup();
 			system("pause");
+			exit(1);
 			return 0;
 		}
 		else
@@ -222,7 +225,7 @@ int main()
 		if (Continue == 0)
 		{
 			cout << "\nERROR!!\nDisconnect to server ... !\n";
-			return 0;
+			break;
 		}
 
 		cout <<endl << "You Won " << quanlityWin << "/" << totalMatch << endl;
@@ -251,5 +254,6 @@ int main()
 	closesocket(client.getClient());
 	WSACleanup();
 	system("pause");
+	exit(1);
 	return 0;
 }
