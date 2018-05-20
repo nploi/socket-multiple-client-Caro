@@ -161,7 +161,7 @@ void *registerAccount(void *param) {
 		}
 	}
 
-	::cout << client->name << "'s registered success !!\n";
+	::cout << client->name << " registered success !!\n";
 
 	pthread_cancel(client->thread);
 	

@@ -20,10 +20,6 @@
 
 using namespace std;
 
-/*
-class of
-include socket and name of client and pthread;
-*/
 class Player {
 public:
 	Player();

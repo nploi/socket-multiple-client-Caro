@@ -1,3 +1,13 @@
+/*
+* This's the map for caro
+* @author
+* - Nguyen Phuc Loi
+* - 1660321
+* @email
+* - nploi1998@gmail.com
+*/
+
+
 #include "Map.h"
 
 Map::Map() {
