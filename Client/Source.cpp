@@ -137,6 +137,9 @@ int main()
 		{
 			cout << endl << "~*~*~*~ PLAY CHESS GAME ~*~*~*~" << endl;
 			cout << username << " VS " << opponentName << endl;	//note name's player with name's opponent
+			cout << "You: " << chessMan1 << endl;
+			cout << opponentName + ": " << chessMan2 << endl;
+
 			if (n % 2 != 0)
 			{
 				win = 0;
@@ -190,7 +193,7 @@ int main()
 			else
 			{
 				//receive point(x, y) from opponent
-				cout << endl << ">>> Waiting to session...." << endl;
+				cout << endl << ">>> Waiting " + opponentName + "...." << endl;
 				win = 0;
 				buff.clear();
 				buff = client.Receive();

@@ -15,6 +15,7 @@
 #include <map>
 #include <string.h>
 #include <string>
+#include <sstream>
 
 #define MAX_TEXT 50
 
@@ -45,6 +46,18 @@ public:
 		else return false
 	*/
 	bool sendAText(string text);
+
+
+	/*
+	@describe
+		Send x, y, win for player
+	@param
+		player: Player
+	@return
+		success: true
+		not success: false
+	*/
+	bool sendXYWin(int x, int y, int win);
 
 	~Player();
 public:

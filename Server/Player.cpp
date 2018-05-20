@@ -29,3 +29,14 @@ bool Player::sendAText(string text) {
 Player::~Player()
 {
 }
+
+bool Player::sendXYWin(int x, int y, int win) {
+	std::ostringstream os;
+	os << x << " " << y << " " << win;
+	cout << "Sent to " << name << " : " << os.str() << endl;
+	if (!this->sendAText(os.str())){
+		cout << name << " outed !!\n";
+		return false;
+	}
+	return true;
+}

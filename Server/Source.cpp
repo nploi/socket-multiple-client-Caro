@@ -179,10 +179,10 @@ void *startMatch(void *param) {
 		Map game;
 		int n = 0;
 		int check = 0;
-		newMatch->players[0].chessman = (chessMan % 2 == 0) ? 'X' : 'O';
-		newMatch->players[0].sendAText(((chessMan % 2 == 0) ? "0" : "1") + string(" ") + newMatch->players[1].name);
-		newMatch->players[1].chessman = !(chessMan % 2 == 0) ? 'X' : 'O';
-		newMatch->players[1].sendAText((!(chessMan % 2 == 0) ? "0" : "1") + string(" ") + newMatch->players[0].name);
+		newMatch->players[0].chessman = 'X';
+		newMatch->players[0].sendAText("0 " + newMatch->players[1].name);
+		newMatch->players[1].chessman = 'O';
+		newMatch->players[1].sendAText("1 " + newMatch->players[0].name);
 
 		while (check == 0) {
 			if (n % 2 == 0){
@@ -236,39 +236,21 @@ int communication(Player player01, Player player02, Map &game) {
 
 
 	if (win == 1) {
-		ostringstream os1;
-		os1 << x << " " << y << " 1 ";
-		cout << "Sent to " << player02.name << ": " << os1.str() << endl;
-		if (!player01.sendAText(os1.str())){
-			player02.sendAText("exit");
-			cout << player01.name << " did disconnect !!\n";
-		}
-		ostringstream os;
-		os << x << " " << y << " -1 " << endl;
-		cout << "Sent to " << player01.name << ": " << os.str() << endl;
-		if (!player02.sendAText(os.str())){
-			player01.sendAText("exit");
-			cout << player02.name << " did disconnect !!\n";
-		}
 		return 1;
-
+		if (player01.sendXYWin(x, y, 1) == false) {
+			player02.sendAText("exit");
+		}
+		if (player02.sendXYWin(x, y, -1) == false) {
+			player01.sendAText("exit");
+		}
 	}
 	else {
-		ostringstream os;
-		os << x << " " << y << " 0 ";
-		
-		cout << "Sent to " << player01.name << " : " << os.str() << endl;
-		if (!player02.sendAText(os.str())){
-			player01.sendAText("exit");
-			cout << player02.name << " did disconnect !!\n";
-		}
-
-		cout << "Sent to " << player02.name << " : " << os.str() << endl;
-		if (!player01.sendAText(os.str())){
+		if (player01.sendXYWin(x, y, 0) == false) {
 			player02.sendAText("exit");
-			cout << player01.name << " did disconnect !!\n";
 		}
-
+		if (player02.sendXYWin(x, y, 0) == false) {
+			player01.sendAText("exit");
+		}
 	}
 	return 0;
 }
