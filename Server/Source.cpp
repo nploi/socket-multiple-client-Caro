@@ -122,7 +122,8 @@ int main() {
 		*playerTemp = server.accepted();
 
 		cout << playerTemp->socket << " connected\n";
-		//start thread for user create an account
+
+		//start thread for user create an account anh add in new game
 		pthread_create(&playerTemp->thread, NULL, registerAccount, (void*)playerTemp);
 	}
 
