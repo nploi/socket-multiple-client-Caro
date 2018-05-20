@@ -36,7 +36,6 @@ int findPlayer(SocketClient &client, string buff, string &opponentName)
 	return n;
 }
 
-
 /*
 @describe
 	Ask player have play continue or haven't play conntinue. Player seclect 1 to continue or 0 to stop
@@ -52,6 +51,8 @@ int playContinue(SocketClient &client, int valContinue)
 	str += (char)(valContinue + 48);
 	return client.Send(str.c_str());
 }
+
+
 
 int main()
 {
