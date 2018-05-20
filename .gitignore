@@ -9,6 +9,9 @@
 /Caro.v*
 /Server/Debug/
 /Client/Debug/
+/Server/Release/*
+/Client/Release/*
+/Release/*
 /Caro.sdf
 /Caro.opensdf
 /.vs
