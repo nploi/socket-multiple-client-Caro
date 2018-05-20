@@ -48,10 +48,9 @@ int findPlayer(SocketClient &client, string buff, string &opponentName)
 */
 int playContinue(SocketClient &client, int valContinue)
 {
-	char* val;
-	val = new char;
-	val[0] = (char)(valContinue + 48);
-	return client.Send(val);
+	string str;
+	str += (char)(valContinue + 48);
+	return client.Send(str.c_str());
 }
 
 int main()
@@ -60,6 +59,9 @@ int main()
 	string buff;
 	int quanlityWin=0;
 	int totalMatch=0;
+
+	int Continue = 1;
+
 	//init client
 	try
 	{
@@ -89,8 +91,8 @@ int main()
 		buff = client.Receive();
 
 		if (buff.empty()){
-			cout << "Disconnect to server !!\n";
-			return 0;
+			Continue = 0;
+			break;
 		}
 
 		if ((int)buff[0] == '1')
@@ -103,11 +105,6 @@ int main()
 		buff.clear();
 	} while (1);
 
-	//TODO(FIX)
-
-	//_beginthreadex(0, 0, client.SendThread, (void *)client.getClient(), 0, 0);//thread send point
-
-
 	do
 	{
 		int n;
@@ -115,10 +112,7 @@ int main()
 		n = findPlayer(client, buff, opponentName);
 		if (n == -1)
 		{
-			cout << "Disconnect to server... !!!" << endl;
-			closesocket(client.getClient());
-			WSACleanup();
-			system("pause");
+			Continue = 0;
 		}
 		system("cls");
 		char chessMan1 = ((n % 2 == 0) ? 'X' : 'O');
@@ -150,6 +144,11 @@ int main()
 				point[2] = (char)(y + 48);
 				int check = client.Send(point);
 
+				if (check == 0) {
+					Continue = 0;
+					break;
+				}
+
 				game.chess(x, y, chessMan1);
 				game.display();
 
@@ -157,10 +156,6 @@ int main()
 				buff.clear();
 				buff = client.Receive();
 
-				if (buff.empty()) {
-					cout << "Disconnect to server... !!!" <<endl;
-					break;
-				}
 				if ("exit" == buff.substr(0, 4)) 
 				{
 					cout << endl << "Congratulation!!! You win" << endl;
@@ -192,7 +187,7 @@ int main()
 				buff = client.Receive();
 
 				if (buff.empty()) {
-					cout << "Disconnect to server... !!!"<<endl;
+					Continue = 0;
 					break;
 				}
 
@@ -222,6 +217,12 @@ int main()
 
 			}
 			n++;
+		}
+
+		if (Continue == 0)
+		{
+			cout << "\nERROR!!\nDisconnect to server ... !\n";
+			return 0;
 		}
 
 		cout <<endl << "You Won " << quanlityWin << "/" << totalMatch << endl;
