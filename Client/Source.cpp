@@ -70,6 +70,7 @@ int main()
 		if (exception == ERROR_INIT)
 		{
 			cout << "ERROR! cannot init client" << endl;
+			system("pause");
 			return 0;
 		}
 		else

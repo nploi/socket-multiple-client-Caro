@@ -30,7 +30,10 @@ void SocketClient::InitClient(const char* server_addr, int port)
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(port);
 
-	connect(this->server, (sockaddr *)&addr, sizeof(addr));
+	int check = connect(this->server, (sockaddr *)&addr, sizeof(addr));
+	if (check == SOCKET_ERROR){
+		throw ERROR_INIT;
+	}
 }
 
 int SocketClient::registerUsername(string username)
