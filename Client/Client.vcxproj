@@ -80,6 +80,7 @@
     <ClInclude Include="SocketClient.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\lib\Map.cpp" />
     <ClCompile Include="SocketClient.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>

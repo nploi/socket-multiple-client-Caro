@@ -82,6 +82,7 @@ int playContinue(Player &player);
 	not agree: false
 */
 void checkQueue() {
+	cout << "\nNumber plays in queue is: " << queuePlayers.size() << endl;
 	if (queuePlayers.size() >= 2){
 		Match *m = new Match;
 		m->addPlayer(queuePlayers.front());
@@ -164,8 +165,6 @@ void *registerAccount(void *param) {
 
 	pthread_cancel(client->thread);
 	
-	
-
 	return NULL;
 }
 
@@ -200,12 +199,12 @@ void *startMatch(void *param) {
 		if (agree01 && agree02) {
 			continue;
 		}
-		if (agree01) {
-			queuePlayers.push(newMatch->players[0]);
-			checkQueue();
-		}
 		if (agree02) {
 			queuePlayers.push(newMatch->players[1]);
+			checkQueue();
+		}
+		if (agree01) {
+			queuePlayers.push(newMatch->players[0]);
 			checkQueue();
 		}
 		break;
