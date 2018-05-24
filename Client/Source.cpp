@@ -12,24 +12,24 @@
 
 /*
 @describe
-	find opponent. if exists opponent return n (variable character 0 -> 'O' or 1 -> 'X'), else return -1;
+find opponent. if exists opponent return n (variable character 0 -> 'O' or 1 -> 'X'), else return -1;
 @param
-	socket & buff 
+socket & buff
 @return
-	agree: 0 or 1
-	not agree: -1
+agree: 0 or 1
+not agree: -1
 */
 int findPlayer(SocketClient &client, string buff, string &opponentName)
 {
 	int n;
-	cout << "Finding player ..."<<endl;
+	cout << "Finding player ..." << endl;
 	do {
 		buff.clear();
 		buff = client.Receive();
 		if (buff.empty())
 			return -1;
 		n = (int)buff[0] - 48;
-		opponentName = buff.substr(2,buff.length()-2);
+		opponentName = buff.substr(2, buff.length() - 2);
 		if (n == 0 || n == 1)
 			break;
 	} while (1);
@@ -38,12 +38,12 @@ int findPlayer(SocketClient &client, string buff, string &opponentName)
 
 /*
 @describe
-	Ask player have play continue or haven't play conntinue. Player seclect 1 to continue or 0 to stop
+Ask player have play continue or haven't play conntinue. Player seclect 1 to continue or 0 to stop
 @param
-	socket & value continue
+socket & value continue
 @return
-	agree: return 1 if send to server success  
-	not agree: return 0 if error
+agree: return 1 if send to server success
+not agree: return 0 if error
 */
 int playContinue(SocketClient &client, int valContinue)
 {
@@ -58,8 +58,8 @@ int main()
 {
 	SocketClient client;
 	string buff;
-	int quanlityWin=0;
-	int totalMatch=0;
+	int quanlityWin = 0;
+	int totalMatch = 0;
 
 	int Continue = 1;
 
@@ -168,8 +168,7 @@ int main()
 				//receive result win
 				buff.clear();
 				buff = client.Receive();
-
-				if ("exit" == buff.substr(0, 4)) 
+				if ("exit" == buff)
 				{
 					cout << endl << "Congratulation!!! You win" << endl;
 					break;
@@ -208,7 +207,7 @@ int main()
 				in >> x >> y >> win;
 				game.chess(x, y, chessMan2);
 				game.display();
-				if (buff == "exit")
+				if ("exit" == buff)
 				{
 					cout << endl << "Congratulation!!! You win" << endl;
 					break;
@@ -238,13 +237,13 @@ int main()
 			break;
 		}
 
-		cout <<endl << "You Won " << quanlityWin << "/" << totalMatch << endl;
+		cout << endl << "You Won " << quanlityWin << "/" << totalMatch << endl;
 
 		//select continue
 		int valContinue;
 		while (1)
 		{
-			cout <<endl << "Do you want continue? Select 1 to continue or 0 to stop" << endl;
+			cout << endl << "Do you want continue? Select 1 to continue or 0 to stop" << endl;
 			cin >> valContinue;
 			if (valContinue == 1 || valContinue == 0)
 				break;

@@ -29,11 +29,11 @@ public:
 
 	/*
 	@describe
-		Add player for game
+	Add player for game
 	@param
-		player: player
+	player: player
 	@return
-		NULL
+	NULL
 	*/
 	void addPlayer(Player player);
 

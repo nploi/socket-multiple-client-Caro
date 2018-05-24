@@ -27,35 +27,44 @@ public:
 
 	/*
 	@describe
-		Receive a text from client
+	Receive a text from client
 	@param
-		NULL
+	NULL
 	@return
-		if success will return text from client
-		else return string empty
+	if success will return text from client
+	else return string empty
 	*/
 	string receive();
 
 	/*
 	@describe
-		Send a text to client
+	Send a text to client
 	@param
-		text: string
+	text: string
 	@return
-		if success will return true
-		else return false
+	if success will return true
+	else return false
 	*/
 	bool sendAText(string text);
 
 
 	/*
 	@describe
+<<<<<<< HEAD
 		Send x, y, win for player
 	@param
 		player: Player
 	@return
 		success: true
 		not success: false
+=======
+	Send x, y, win for player
+	@param
+	player: Player
+	@return
+	success: true
+	not success: false
+>>>>>>> master
 	*/
 	bool sendXYWin(int x, int y, int win);
 

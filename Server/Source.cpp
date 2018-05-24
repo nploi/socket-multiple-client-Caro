@@ -23,26 +23,26 @@ queue<Player> queuePlayers;
 
 
 /*
-	@describe
-		Register an account
-	@param
-		param: void
-	@return
-		NULL
+@describe
+Register an account
+@param
+param: void
+@return
+NULL
 */
 void *registerAccount(void *param);
 
 
 /*
 @describe
-	communication between players
+communication between players
 @param
-	player01: player
-	player02: player
+player01: player
+player02: player
 @return
-	2: player01 is out
-	1: player01 is win
-	0: not win
+2: player01 is out
+1: player01 is win
+0: not win
 */
 int communication(Player player01, Player player02, Map &game);
 
@@ -50,36 +50,36 @@ int communication(Player player01, Player player02, Map &game);
 
 /*
 @describe
-	Start new match
+Start new match
 @param
-	param: void
+param: void
 @return
-	NULL
+NULL
 */
 void *startMatch(void *param);
 
 
 
 /*
-@describe	
-	Check player, do you want to play continue
+@describe
+Check player, do you want to play continue
 @param
-	player: Player
+player: Player
 @return
-	agree: true
-	not agree: false
+agree: true
+not agree: false
 */
 int playContinue(Player &player);
 
 
 /*
-@describe	
-	Check queue of players, if queue have more 2 player connect to add 2 player in game
+@describe
+Check queue of players, if queue have more 2 player connect to add 2 player in game
 @param
-	player: Player
+player: Player
 @return
-	agree: true
-	not agree: false
+agree: true
+not agree: false
 */
 void checkQueue() {
 	cout << "\nNumber plays in queue is: " << queuePlayers.size() << endl;
@@ -89,7 +89,6 @@ void checkQueue() {
 		queuePlayers.pop();
 		m->addPlayer(queuePlayers.front());
 		queuePlayers.pop();
-		
 		// If have 2 players, will start new Match
 		pthread_create(&m->thread, NULL, startMatch, (void*)m);
 	}
@@ -98,8 +97,8 @@ void checkQueue() {
 
 int main() {
 	/*
-		If cannot init socket for server, program will throw exception
-		*/
+	If cannot init socket for server, program will throw exception
+	*/
 	SocketServer server;
 	try {
 		server.init(PORT, SERVER_ADDR);
@@ -168,7 +167,7 @@ void *registerAccount(void *param) {
 	::cout << client->name << " registered success !!\n";
 
 	pthread_cancel(client->thread);
-	
+
 	return NULL;
 }
 
@@ -243,20 +242,22 @@ int communication(Player player01, Player player02, Map &game) {
 
 
 	if (win == 1) {
-		return 1;
-		if (player01.sendXYWin(x, y, 1) == false) {
-			player02.sendAText("exit");
-		}
 		if (player02.sendXYWin(x, y, -1) == false) {
 			player01.sendAText("exit");
 		}
-	}
-	else {
-		if (player01.sendXYWin(x, y, 0) == false) {
+		if (player01.sendXYWin(x, y, 1) == false) {
 			player02.sendAText("exit");
 		}
+		return 1;
+	}
+	else {
 		if (player02.sendXYWin(x, y, 0) == false) {
 			player01.sendAText("exit");
+			return 1;
+		}
+		if (player01.sendXYWin(x, y, 0) == false) {
+			player02.sendAText("exit");
+			return 1;
 		}
 	}
 	return 0;
