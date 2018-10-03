@@ -15,3 +15,8 @@
 /Caro.sdf
 /Caro.opensdf
 /.vs
+CMakeCache.txt
+Makefile
+/Server/CMakeFiles/
+/Client/CMakeFiles/
+cmake_install.cmake
